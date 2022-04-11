@@ -1,17 +1,20 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import ReactDOM from 'react-dom/client'
+import App from './App'
+import { store } from './app/store'
+import { Provider } from 'react-redux'
+import { Windmill } from '@windmill/react-ui'
+import './index.css'
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+const rootElement = document.querySelector('#root')
+if (!rootElement) {
+  throw new Error('Root element not found')
+}
+const root = ReactDOM.createRoot(rootElement)
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+root.render(
+  <Provider store={store}>
+    <Windmill>
+      <App />
+    </Windmill>
+  </Provider>
+)
