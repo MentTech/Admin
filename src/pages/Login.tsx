@@ -1,5 +1,5 @@
 import React from 'react'
-import { config } from '../config/mainConfig'
+import config from '../config/mainConfig'
 import ImageLight from '../assets/img/login-office.jpeg'
 import ImageDark from '../assets/img/login-office-dark.jpeg'
 // import { GithubIcon, TwitterIcon } from '../icons';

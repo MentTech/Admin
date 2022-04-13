@@ -1,8 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit'
 import counterReducer from '../features/counter/counterSlice'
+import authReducer from '../features/auth/authSlice'
 
 export const store = configureStore({
-  reducer: { count: counterReducer },
+  reducer: { count: counterReducer, auth: authReducer },
 })
 
 export type RootState = ReturnType<typeof store.getState>
