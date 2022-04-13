@@ -11,14 +11,27 @@ type SignInPayload = {
   password: string
 }
 
-export const postSignIn = createAsyncThunk<AuthResponse, SignInPayload>(
-  'auth/signIn',
-  async (formData: SignInPayload) => {
+type PostSignInError = {
+  message: string
+}
+
+export const postSignIn = createAsyncThunk<
+  AuthResponse,
+  SignInPayload,
+  {
+    rejectValue: PostSignInError
+  }
+>('auth/signIn', async (formData: SignInPayload, thunkApi) => {
+  try {
     const res = await axios.post(
       `${config.BACKENDURL}/v1/auth/signIn/admin`,
       formData
     )
     const { data } = res
     return data as AuthResponse
+  } catch (err: any) {
+    return thunkApi.rejectWithValue({
+      message: 'Invalid email or password',
+    })
   }
-)
+})

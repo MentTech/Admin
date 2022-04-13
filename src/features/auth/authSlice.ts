@@ -1,16 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { RootState } from 'app/store'
 import { postSignIn } from './postSignIn'
 
 interface AuthState {
   isSignedIn: boolean
   accessToken: string
   status: 'loading' | 'idle'
+  error: string | undefined
 }
 
 const initialState = {
   isSignedIn: false,
   accessToken: '',
   status: 'idle',
+  error: '',
 } as AuthState
 
 export const authSlice = createSlice({
@@ -32,8 +35,14 @@ export const authSlice = createSlice({
       state.accessToken = action.payload.accessToken
       state.isSignedIn = true
     })
+
+    builder.addCase(postSignIn.rejected, (state, { payload }) => {
+      state.status = 'idle'
+      state.error = payload?.message
+    })
   },
 })
 
+export const selectAuth = (state: RootState) => state.auth
 export const { signOut } = authSlice.actions
 export default authSlice.reducer

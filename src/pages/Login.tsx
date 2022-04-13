@@ -1,15 +1,16 @@
-import React from 'react'
-import config from '../config/mainConfig'
-import ImageLight from '../assets/img/login-office.jpeg'
 import ImageDark from '../assets/img/login-office-dark.jpeg'
+import ImageLight from '../assets/img/login-office.jpeg'
 // import { GithubIcon, TwitterIcon } from '../icons';
-import { Navigate } from 'react-router-dom'
-import { Label, Input, Button, HelperText } from '@windmill/react-ui'
-import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
-import { ToastContainer } from 'react-toastify'
+import { Button, HelperText, Input, Label } from '@windmill/react-ui'
+import { Controller, useForm } from 'react-hook-form'
 import 'react-toastify/dist/ReactToastify.css'
+import * as yup from 'yup'
+import { postSignIn } from 'features/auth/postSignIn'
+import { useAppDispatch, useAppSelector } from 'app/hook'
+import { toast } from 'react-toastify'
+import { selectAuth } from 'features/auth/authSlice'
+import { Navigate, useNavigate } from 'react-router-dom'
 
 const schema = yup
   .object()
@@ -30,12 +31,24 @@ function Login(props: any) {
     resolver: yupResolver(schema),
   })
 
-  // if (props.auth.isSignedIn) {
-  //   return <Navigate to="/" replace />
-  // }
+  let navigate = useNavigate()
+  const dispatch = useAppDispatch()
+  const { isSignedIn } = useAppSelector(selectAuth)
+
+  if (isSignedIn) {
+    return <Navigate to="/dashboard" replace />
+  }
 
   async function onSubmit(data: any) {
-    props.signIn(data)
+    const resultAction = await dispatch(postSignIn(data))
+    if (postSignIn.fulfilled.match(resultAction)) {
+      toast.success('Login success')
+      navigate('/dashboard')
+    } else {
+      if (resultAction.payload) {
+        toast.error(resultAction.payload.message)
+      }
+    }
   }
 
   return (
@@ -109,7 +122,6 @@ function Login(props: any) {
           </main>
         </div>
       </div>
-      <ToastContainer autoClose={3000} />
     </div>
   )
 }
