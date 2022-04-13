@@ -1,7 +1,20 @@
+import About from 'pages/About'
+import Login from 'pages/Login'
 import * as React from 'react'
-import Counter from './features/counter/Counter'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+
+import Layout from './containers/Layout'
+
 export interface AppProps {}
 
 export default function App(props: AppProps) {
-  return <Counter />
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="login" element={<Login />} />
+        <Route path="about" element={<About />} />
+        <Route path="/" element={<Layout />}></Route>
+      </Routes>
+    </BrowserRouter>
+  )
 }

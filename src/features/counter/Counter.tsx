@@ -1,9 +1,9 @@
-import { useAppSelector, useAppDispatch } from 'src/app/hook'
-import { increase, decrease } from './counterSlice'
+import { useAppDispatch, useAppSelector } from 'app/hook'
+import { increase, decrease, selectCount } from './counterSlice'
 
 export default function Counter() {
   // The `state` arg is correctly typed as `RootState` already
-  const count = useAppSelector((state) => state.count.value)
+  const count = useAppSelector(selectCount)
   const dispatch = useAppDispatch()
 
   function handleIncrease() {
