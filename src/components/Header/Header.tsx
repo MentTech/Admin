@@ -1,7 +1,9 @@
 import React, { useContext, useState } from 'react'
 //import { SidebarContext } from '../context/SidebarContext';
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import { Icons } from '../../icons'
+import { useAppDispatch, useAppSelector } from 'app/hook'
+import { signOut, selectAuth } from 'features/auth/authSlice'
 import {
   Avatar,
   Badge,
@@ -23,11 +25,16 @@ const {
 } = Icons
 
 function Header(props: any) {
-  const { mode, toggleMode } = useContext(WindmillContext)
-  //const { toggleSidebar } = useContext(SidebarContext);
-
   const [isNotificationsMenuOpen, setIsNotificationsMenuOpen] = useState(false)
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false)
+  const { mode, toggleMode } = useContext(WindmillContext)
+  //const { toggleSidebar } = useContext(SidebarContext);
+  const dispatch = useAppDispatch()
+  const { isSignedIn } = useAppSelector(selectAuth)
+
+  if (!isSignedIn) {
+    return <Navigate to={'/login'} replace />
+  }
 
   function handleNotificationsClick() {
     setIsNotificationsMenuOpen(!isNotificationsMenuOpen)
@@ -38,7 +45,7 @@ function Header(props: any) {
   }
 
   function handleSignOut() {
-    props.signOut()
+    dispatch(signOut())
   }
 
   return (

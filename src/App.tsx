@@ -10,22 +10,22 @@ const Page404 = lazy(() => import('pages/404'))
 export interface AppProps {}
 
 export interface PrivateRouteProps {
-  element: React.ReactElement<any>
+  element: React.ReactElement
   [key: string]: any
 }
 
-// const PrivateRoute = ({ element: Component, ...rest }: PrivateRouteProps) => (
-//   <Route
-//     {...rest}
-//     element={
-//       store.getState().auth.isSignedIn ? (
-//         Component
-//       ) : (
-//         <Navigate to={{ pathname: '/login' }} replace />
-//       )
-//     }
-//   />
-// )
+const PrivateRoute = ({ element: Component, ...rest }: PrivateRouteProps) => (
+  <Route
+    {...rest}
+    element={
+      store.getState().auth.isSignedIn ? (
+        Component
+      ) : (
+        <Navigate to={{ pathname: '/login' }} replace />
+      )
+    }
+  />
+)
 
 export default function App(props: AppProps) {
   return (
@@ -34,7 +34,7 @@ export default function App(props: AppProps) {
         <Route path="login" element={<Login />} />
         <Route path="about" element={<About />} />
         <Route path="/" element={<Layout />}>
-          {/* {routes.map((route, i) => {
+          {routes.map((route, i) => {
             return route.component ? (
               <Route
                 key={i}
@@ -42,7 +42,7 @@ export default function App(props: AppProps) {
                 element={<route.component />}
               />
             ) : null
-          })} */}
+          })}
           <Route path="*" element={<Page404 />} />
         </Route>
       </Routes>

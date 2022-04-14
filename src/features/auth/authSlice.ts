@@ -5,7 +5,7 @@ import { postSignIn } from './postSignIn'
 interface AuthState {
   isSignedIn: boolean
   accessToken: string
-  status: 'loading' | 'idle'
+  status: 'idle' | 'loading' | 'done'
   error: string | undefined
 }
 
@@ -31,13 +31,13 @@ export const authSlice = createSlice({
     })
 
     builder.addCase(postSignIn.fulfilled, (state, action) => {
-      state.status = 'idle'
+      state.status = 'done'
       state.accessToken = action.payload.accessToken
       state.isSignedIn = true
     })
 
     builder.addCase(postSignIn.rejected, (state, { payload }) => {
-      state.status = 'idle'
+      state.status = 'done'
       state.error = payload?.message
     })
   },
