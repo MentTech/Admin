@@ -1,6 +1,6 @@
 import React from 'react'
 import routes from '../../routes/sidebar'
-import { NavLink, Route, Link } from 'react-router-dom'
+import { NavLink, Routes, Route, Link } from 'react-router-dom'
 import { Icons } from '../../icons'
 import SidebarSubmenu from './SidebarSubmenu'
 import { Button } from '@windmill/react-ui'
@@ -21,6 +21,7 @@ function SidebarContent() {
       >
         Admin App
       </Link>
+
       <ul className="mt-6">
         {routes.map((route: any) =>
           route.routes ? (
@@ -35,12 +36,17 @@ function SidebarContent() {
                   } inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200`
                 }
               >
-                <Route path={route.path}>
-                  <span
-                    className="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
-                    aria-hidden="true"
-                  ></span>
-                </Route>
+                <Routes>
+                  <Route
+                    path={route.path}
+                    element={
+                      <span
+                        className="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
+                        aria-hidden="true"
+                      ></span>
+                    }
+                  ></Route>
+                </Routes>
                 <Icon
                   className="w-5 h-5"
                   aria-hidden="true"

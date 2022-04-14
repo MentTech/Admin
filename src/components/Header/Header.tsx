@@ -135,7 +135,7 @@ function Header(props: any) {
               isOpen={isProfileMenuOpen}
               onClose={() => setIsProfileMenuOpen(false)}
             >
-              <Link to={`/admins/${props.user._id}`}>
+              <Link to="/">
                 <DropdownItem>
                   <OutlinePersonIcon
                     className="w-4 h-4 mr-3"
