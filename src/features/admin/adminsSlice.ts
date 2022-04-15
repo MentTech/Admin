@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { Admin } from 'models'
 import { fetchAdmins } from './fetchAdmins'
+import { RootState } from 'app/store'
 
 export interface AdminsState {
   admins: Admin[]
@@ -35,3 +36,7 @@ export const adminsSlice = createSlice({
     })
   },
 })
+
+export const selectAdmins = (state: RootState) => state.admins
+
+export default adminsSlice.reducer

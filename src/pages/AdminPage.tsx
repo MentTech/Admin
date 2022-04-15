@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { connect } from 'react-redux'
 import PageTitle from '../components/Typography/PageTitle'
 import { Link } from 'react-router-dom'
 import { Input } from '@windmill/react-ui'
 import Spinner from 'components/Spinner/Spinner'
+import { fetchAdmins } from 'features/admin/fetchAdmins'
+import { selectAdmins } from 'features/admin/adminsSlice'
+import { useAppDispatch, useAppSelector } from 'app/hook'
 
 import {
   Table,
@@ -20,42 +22,45 @@ import {
 } from '@windmill/react-ui'
 import DefaultAvatar from 'assets/img/unnamed.png'
 import { Icons } from 'icons'
+import { Admin } from 'models'
 
 const { EditIcon, SortIcon } = Icons
-function AdminPage(props: any) {
+function AdminPage() {
   const [pageTable, setPageTable] = useState(1)
   const [searchName, setSearchName] = useState('')
   const [searchEmail, setSearchEmail] = useState('')
   const [isAsc, setIsAsc] = useState(true)
+  const dispatch = useAppDispatch()
+  const { admins } = useAppSelector(selectAdmins)
 
-  // useEffect(() => {
-  //   props.fetchAdmins()
-  // }, [])
+  useEffect(() => {
+    dispatch(fetchAdmins())
+  }, [])
 
-  // let dataTable = props.admins
-  // dataTable = dataTable.filter((admin: any) => {
-  //   return (
-  //     admin.name.toLowerCase().includes(searchName.toLowerCase()) &&
-  //     admin.email.toLowerCase().includes(searchEmail.toLowerCase())
-  //   )
-  // })
+  let dataTable = admins
+  dataTable = dataTable.filter((admin: Admin) => {
+    return (
+      admin.name.toLowerCase().includes(searchName.toLowerCase()) &&
+      admin.email.toLowerCase().includes(searchEmail.toLowerCase())
+    )
+  })
 
-  // dataTable = dataTable.sort((a: any, b: any) => {
-  //   if (isAsc) {
-  //     return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-  //   } else {
-  //     return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-  //   }
-  // })
+  dataTable = dataTable.sort((a: any, b: any) => {
+    if (isAsc) {
+      return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+    } else {
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    }
+  })
 
   // pagination setup
-  // const resultsPerPage = 10
-  // const totalResults = props.admins.length || 1000
+  const resultsPerPage = 10
+  const totalResults = admins.length
 
-  // dataTable = dataTable.slice(
-  //   (pageTable - 1) * resultsPerPage,
-  //   pageTable * resultsPerPage
-  // )
+  dataTable = dataTable.slice(
+    (pageTable - 1) * resultsPerPage,
+    pageTable * resultsPerPage
+  )
 
   // pagination change control
   function onPageChangeTable2(p: any) {
@@ -99,7 +104,7 @@ function AdminPage(props: any) {
         />
       </div>
       {/* <SectionTitle>Table with actions</SectionTitle> */}
-      {true ? (
+      {admins.length === 0 ? (
         <Spinner />
       ) : (
         <TableContainer className="mb-8">
@@ -121,7 +126,7 @@ function AdminPage(props: any) {
               </tr>
             </TableHeader>
             <TableBody>
-              {/* {dataTable?.map((user: any, i: number) => (
+              {dataTable?.map((user: any, i: number) => (
                 <TableRow key={i}>
                   <TableCell>
                     <div className="flex items-center text-sm">
@@ -142,7 +147,7 @@ function AdminPage(props: any) {
                     <span className="text-sm">{user.email}</span>
                   </TableCell>
                   <TableCell>
-                    <Badge type={user.status}>{user.phoneNumber}</Badge>
+                    <Badge type={user.status}>{user.phone}</Badge>
                   </TableCell>
                   <TableCell>
                     <span className="text-sm">
@@ -159,16 +164,16 @@ function AdminPage(props: any) {
                     </div>
                   </TableCell>
                 </TableRow>
-              ))} */}
+              ))}
             </TableBody>
           </Table>
           <TableFooter>
-            {/* <Pagination
+            <Pagination
               totalResults={totalResults}
               resultsPerPage={resultsPerPage}
               onChange={onPageChangeTable2}
               label="Table navigation"
-            /> */}
+            />
           </TableFooter>
         </TableContainer>
       )}
