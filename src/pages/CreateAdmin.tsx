@@ -54,7 +54,7 @@ function CreateAdmin() {
             <span>Email</span>
             <Input
               {...register('email')}
-              css={true}
+              css=""
               className="mt-1"
               placeholder="Email"
               type="email"
@@ -69,7 +69,7 @@ function CreateAdmin() {
               {...register('name')}
               className="mt-1"
               placeholder="Fullname"
-              css={true}
+              css=""
               valid={errors.name === undefined}
             />
             <HelperText valid={false}>{errors.name?.message}</HelperText>
@@ -80,7 +80,7 @@ function CreateAdmin() {
             <Input
               {...register('phone')}
               className="mt-1"
-              css={true}
+              css=""
               placeholder="Phone Number"
               type="number"
               valid={errors.phone === undefined}
@@ -92,7 +92,7 @@ function CreateAdmin() {
             <span>Password</span>
             <Input
               {...register('password')}
-              css={true}
+              css=""
               className="mt-1"
               placeholder="Password"
               type="password"
@@ -105,7 +105,7 @@ function CreateAdmin() {
             <span>Confirm password</span>
             <Input
               {...register('confirmPassword')}
-              css={true}
+              css=""
               className="mt-1"
               placeholder="Confirm password"
               type="password"

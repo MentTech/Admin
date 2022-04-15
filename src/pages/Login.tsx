@@ -86,7 +86,7 @@ function Login(props: any) {
                         type="email"
                         className="mt-1"
                         placeholder="Email"
-                        css={true}
+                        css=""
                       />
                     )}
                   />
@@ -104,7 +104,7 @@ function Login(props: any) {
                         type="password"
                         className="mt-1"
                         placeholder="Password"
-                        css={true}
+                        css=""
                       />
                     )}
                   />

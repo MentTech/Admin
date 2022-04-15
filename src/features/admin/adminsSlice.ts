@@ -27,7 +27,7 @@ export const adminsSlice = createSlice({
     })
 
     builder.addCase(fetchAdmins.fulfilled, (state, action) => {
-      state.admins.concat(action.payload)
+      state.admins = action.payload
       state.status = 'succeeded'
     })
 

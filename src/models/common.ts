@@ -14,3 +14,7 @@ export interface AdminFormData {
   avatar: string
   password: string
 }
+
+export interface CreateSkillFormData {
+  descrtipion: string
+}

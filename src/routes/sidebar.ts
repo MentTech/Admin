@@ -22,10 +22,10 @@ const routes = [
     name: 'Users',
   },
   {
-    path: '/classes',
+    path: '/skills',
     icon: 'ClassIcon',
-    name: 'Classes',
+    name: 'Skills',
   },
-];
+]
 
-export default routes;
+export default routes

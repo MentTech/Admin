@@ -6,6 +6,9 @@ import { Windmill } from '@windmill/react-ui'
 import './index.css'
 import 'react-toastify/dist/ReactToastify.css'
 import { ToastContainer } from 'react-toastify'
+import ThemedSuspense from 'components/ThemedSuspense'
+import { Suspense } from 'react'
+import 'tw-elements'
 
 const rootElement = document.querySelector('#root')
 if (!rootElement) {
@@ -15,9 +18,11 @@ const root = ReactDOM.createRoot(rootElement)
 
 root.render(
   <Provider store={store}>
-    <Windmill>
-      <App />
-      <ToastContainer />
-    </Windmill>
+    <Suspense fallback={<ThemedSuspense />}>
+      <Windmill>
+        <App />
+        <ToastContainer />
+      </Windmill>
+    </Suspense>
   </Provider>
 )

@@ -1,51 +1,48 @@
-import React, { useState, useEffect } from 'react'
-import PageTitle from '../components/Typography/PageTitle'
-import { Link } from 'react-router-dom'
 import { Input } from '@windmill/react-ui'
-import Spinner from 'components/Spinner/Spinner'
-import { fetchAdmins } from 'features/admin/fetchAdmins'
-import { selectAdmins } from 'features/admin/adminsSlice'
 import { useAppDispatch, useAppSelector } from 'app/hook'
+import Spinner from 'components/Spinner/Spinner'
+import { fetchSkills } from 'features/skill/fetchSkills'
+import { selectSkills } from 'features/skill/skillSlice'
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import PageTitle from '../components/Typography/PageTitle'
 
 import {
-  Table,
-  TableHeader,
-  TableCell,
-  TableBody,
-  TableRow,
-  TableFooter,
-  TableContainer,
-  Badge,
-  Avatar,
   Button,
   Pagination,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableFooter,
+  TableHeader,
+  TableRow,
 } from '@windmill/react-ui'
-import DefaultAvatar from 'assets/img/unnamed.png'
 import { Icons } from 'icons'
-import { Admin } from 'models'
+import { Skill } from 'models'
 
 const { EditIcon, SortIcon } = Icons
-function AdminPage() {
+function SkillPage() {
   const [pageTable, setPageTable] = useState(1)
   const [searchName, setSearchName] = useState('')
-  const [searchEmail, setSearchEmail] = useState('')
   const [isAsc, setIsAsc] = useState(true)
   const dispatch = useAppDispatch()
-  const { admins } = useAppSelector(selectAdmins)
+  const { skills } = useAppSelector(selectSkills)
 
   useEffect(() => {
-    dispatch(fetchAdmins())
+    dispatch(fetchSkills())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  let dataTable = admins
-  dataTable = dataTable.filter((admin: Admin) => {
-    return (
-      admin.name.toLowerCase().includes(searchName.toLowerCase()) &&
-      admin.email.toLowerCase().includes(searchEmail.toLowerCase())
-    )
-  })
+  let dataTable = skills
+  // dataTable = dataTable.filter((skill: Skill) => {
+  //   return (
+  //     skill.name.toLowerCase().includes(searchName.toLowerCase()) &&
+  //     skill.email.toLowerCase().includes(searchEmail.toLowerCase())
+  //   )
+  // })
 
-  dataTable = dataTable.sort((a: any, b: any) => {
+  dataTable.slice().sort((a, b) => {
     if (isAsc) {
       return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
     } else {
@@ -55,7 +52,7 @@ function AdminPage() {
 
   // pagination setup
   const resultsPerPage = 10
-  const totalResults = admins.length
+  const totalResults = skills.length
 
   dataTable = dataTable.slice(
     (pageTable - 1) * resultsPerPage,
@@ -74,11 +71,11 @@ function AdminPage() {
   return (
     <>
       <div className="flex justify-between">
-        <PageTitle>Admins</PageTitle>
+        <PageTitle>Skills</PageTitle>
         <div className="my-6">
-          <Link to="/admins/create">
+          <Link to="/skills/create">
             <Button>
-              Create account
+              Create skill
               <span className="ml-2" aria-hidden="true">
                 +
               </span>
@@ -90,30 +87,22 @@ function AdminPage() {
         <Input
           className="mr-4"
           aria-label="Bad"
-          placeholder="Name"
+          placeholder="Description"
           css=""
           value={searchName}
           onChange={(e) => setSearchName(e.target.value)}
         />
-        <Input
-          aria-label="Bad"
-          placeholder="Email"
-          css=""
-          value={searchEmail}
-          onChange={(e) => setSearchEmail(e.target.value)}
-        />
       </div>
       {/* <SectionTitle>Table with actions</SectionTitle> */}
-      {admins.length === 0 ? (
+      {skills.length === 0 ? (
         <Spinner />
       ) : (
         <TableContainer className="mb-8">
           <Table>
             <TableHeader>
               <tr>
-                <TableCell>Admin</TableCell>
-                <TableCell>Email</TableCell>
-                <TableCell>Phone Number</TableCell>
+                <TableCell>Id</TableCell>
+                <TableCell>Description</TableCell>
                 <TableCell>
                   <div className="flex items-center">
                     <span>Date Created</span>
@@ -126,37 +115,26 @@ function AdminPage() {
               </tr>
             </TableHeader>
             <TableBody>
-              {dataTable?.map((user: any, i: number) => (
+              {dataTable?.map((skill: Skill, i: number) => (
                 <TableRow key={i}>
                   <TableCell>
                     <div className="flex items-center text-sm">
-                      <Avatar
-                        className="hidden mr-3 md:block"
-                        src={DefaultAvatar}
-                        alt="User avatar"
-                      />
                       <div>
-                        <p className="font-semibold">{user.name}</p>
-                        <p className="text-xs text-gray-600 dark:text-gray-400">
-                          Super admin
-                        </p>
+                        <p className="font-semibold">{skill.id}</p>
                       </div>
                     </div>
                   </TableCell>
                   <TableCell>
-                    <span className="text-sm">{user.email}</span>
-                  </TableCell>
-                  <TableCell>
-                    <Badge type={user.status}>{user.phone}</Badge>
+                    <span className="text-sm">{skill.description}</span>
                   </TableCell>
                   <TableCell>
                     <span className="text-sm">
-                      {new Date(user.createdAt).toLocaleDateString()}
+                      {new Date(skill.createdAt).toLocaleDateString()}
                     </span>
                   </TableCell>
                   <TableCell>
                     <div className="flex justify-center items-center space-x-4">
-                      <Link to={`/admins/${user._id}`}>
+                      <Link to={`/skills/${skill.id}`}>
                         <Button layout="link" size="small" aria-label="Edit">
                           <EditIcon className="w-5 h-5" aria-hidden="true" />
                         </Button>
@@ -181,4 +159,4 @@ function AdminPage() {
   )
 }
 
-export default AdminPage
+export default SkillPage

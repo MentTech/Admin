@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import counterReducer from '../features/counter/counterSlice'
 import authReducer from '../features/auth/authSlice'
 import adminsReducer from 'features/admin/adminsSlice'
+import skillReducer from 'features/skill/skillSlice'
 import { loadState, setState } from 'utils/localStorage'
 
 const preloadedState = {
@@ -9,7 +10,12 @@ const preloadedState = {
 }
 
 export const store = configureStore({
-  reducer: { count: counterReducer, auth: authReducer, admins: adminsReducer },
+  reducer: {
+    count: counterReducer,
+    auth: authReducer,
+    admins: adminsReducer,
+    skills: skillReducer,
+  },
   preloadedState,
 })
 

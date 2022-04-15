@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function ThemedSuspense() {
   return (
@@ -57,7 +57,7 @@ function ThemedSuspense() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default ThemedSuspense;
+export default ThemedSuspense

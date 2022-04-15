@@ -4,6 +4,9 @@ import { lazy } from 'react'
 const Dashboard = lazy(() => import('pages/Dashboard'))
 const AdminPage = lazy(() => import('pages/AdminPage'))
 const CreateAdmin = lazy(() => import('pages/CreateAdmin'))
+const SkillPage = lazy(() => import('pages/SkillPage'))
+const SkillCreate = lazy(() => import('pages/SkillCreate'))
+const EditSkill = lazy(() => import('pages/EditSkill'))
 // const AdminDetail = lazy(() => import('../pages/AdminDetail'));
 // const UsersPage = lazy(() => import('../pages/UsersPage'));
 // const ClassPage = lazy(() => import('../pages/ClassPage'));
@@ -22,6 +25,18 @@ const routes = [
   {
     path: 'admins/create', // the url
     component: CreateAdmin,
+  },
+  {
+    path: 'skills',
+    component: SkillPage,
+  },
+  {
+    path: 'skills/create',
+    component: SkillCreate,
+  },
+  {
+    path: 'skills/:id',
+    component: EditSkill,
   },
   // {
   //   path: 'admins/:id', // the url

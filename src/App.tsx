@@ -1,10 +1,10 @@
+import { store } from 'app/store'
 import About from 'pages/About'
 import Login from 'pages/Login'
-import React, { useContext, Suspense, useEffect, lazy } from 'react'
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import Layout from './containers/Layout'
-import { store } from 'app/store'
+import React, { lazy } from 'react'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import routes from 'routes/index'
+const Layout = lazy(() => import('./containers/Layout'))
 const Page404 = lazy(() => import('pages/404'))
 
 export interface AppProps {}

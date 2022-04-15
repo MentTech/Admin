@@ -69,7 +69,7 @@ function Header(props: any) {
               className="pl-8 text-gray-700"
               placeholder="Search for projects"
               aria-label="Search"
-              css={true}
+              css=""
             />
           </div>
         </div>
