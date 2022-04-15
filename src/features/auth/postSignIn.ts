@@ -27,6 +27,7 @@ export const postSignIn = createAsyncThunk<
       `${config.BACKENDURL}/v1/auth/signIn/admin`,
       formData
     )
+    console.log(res.data)
     const { data } = res
     return data as AuthResponse
   } catch (err: any) {
