@@ -24,7 +24,7 @@ export const postSignIn = createAsyncThunk<
 >('auth/signIn', async (formData: SignInPayload, thunkApi) => {
   try {
     const res = await axios.post(
-      `${config.BACKENDURL}/v1/auth/signIn/admin`,
+      `${config.BACKEND_URL}/v1/auth/signIn/admin`,
       formData
     )
     const { data } = res
