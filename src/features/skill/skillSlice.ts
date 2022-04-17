@@ -5,6 +5,7 @@ import { fetchSkills } from './fetchSkills'
 import { createSkill } from './createSkill'
 import { editSkill } from './editSkill'
 import { fetchSkill } from './fetchSkill'
+import { deleteSkill } from './deleteSkill'
 
 interface SkillState {
   skills: Skill[]
@@ -59,6 +60,12 @@ const skillSlice = createSlice({
       )
       state.skills[index] = action.payload
       state.status = 'success'
+    })
+
+    builder.addCase(deleteSkill.fulfilled, (state, action) => {
+      state.skills = state.skills.filter(
+        (skill) => skill.id !== action.payload.id
+      )
     })
   },
 })
