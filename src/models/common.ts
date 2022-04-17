@@ -18,3 +18,7 @@ export interface AdminFormData {
 export interface CreateSkillFormData {
   descrtipion: string
 }
+
+export interface CreateCategoryFormData {
+  name: string
+}
