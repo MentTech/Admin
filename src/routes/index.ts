@@ -7,7 +7,10 @@ const CreateAdmin = lazy(() => import('pages/CreateAdmin'))
 const SkillPage = lazy(() => import('pages/SkillPage'))
 const SkillCreate = lazy(() => import('pages/SkillCreate'))
 const EditSkill = lazy(() => import('pages/EditSkill'))
-// const AdminDetail = lazy(() => import('../pages/AdminDetail'));
+const CategoryPage = lazy(() => import('pages/CategoryPage'))
+const EditCategory = lazy(() => import('pages/EditCategory'))
+const AdminDetail = lazy(() => import('pages/AdminDetail'))
+const MentorPage = lazy(() => import('pages/MentorsPage'))
 // const UsersPage = lazy(() => import('../pages/UsersPage'));
 // const ClassPage = lazy(() => import('../pages/ClassPage'));
 // const UserDetail = lazy(() => import('../pages/UserDetail'));
@@ -23,8 +26,16 @@ const routes = [
     component: AdminPage, // view rendered
   },
   {
+    path: 'admins/:id', // the url
+    component: AdminDetail, // view rendered
+  },
+  {
     path: 'admins/create', // the url
     component: CreateAdmin,
+  },
+  {
+    path: 'mentors', // the url
+    component: MentorPage,
   },
   {
     path: 'skills',
@@ -37,6 +48,14 @@ const routes = [
   {
     path: 'skills/:id',
     component: EditSkill,
+  },
+  {
+    path: 'categories',
+    component: CategoryPage,
+  },
+  {
+    path: 'categories/:id',
+    component: EditCategory,
   },
   // {
   //   path: 'admins/:id', // the url

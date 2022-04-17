@@ -10,7 +10,7 @@ import { toast } from 'react-toastify'
 
 const schema = yup
   .object({
-    description: yup.string().required('Description is required'),
+    description: yup.string().required('Tên kỹ năng không được bỏ trống'),
   })
   .required()
 
@@ -35,10 +35,10 @@ function SkillCreate() {
   return (
     <>
       <div className="flex justify-between items-center">
-        <PageTitle>Create Skill</PageTitle>
+        <PageTitle>Tạo kỹ năng</PageTitle>
         <div>
           <Link to="/skills">
-            <Button>Back</Button>
+            <Button>Quay lại</Button>
           </Link>
         </div>
       </div>
@@ -46,12 +46,12 @@ function SkillCreate() {
       <div className="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
         <form onSubmit={handleSubmit(onSubmit)}>
           <Label>
-            <span>Description</span>
+            <span>Tên kỹ năng</span>
             <Input
               {...register('description')}
               css=""
               className="mt-1"
-              placeholder="Description"
+              placeholder="Tên kỹ năng"
               type="text"
               valid={errors.description === undefined}
             />
@@ -60,7 +60,7 @@ function SkillCreate() {
 
           <div className="flex justify-center">
             <Button className="mt-6" type="submit">
-              Create Skill
+              Tạo
             </Button>
           </div>
         </form>

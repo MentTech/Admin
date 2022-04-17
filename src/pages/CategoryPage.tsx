@@ -1,9 +1,9 @@
 import { Input } from '@windmill/react-ui'
 import { useAppDispatch, useAppSelector } from 'app/hook'
 import Spinner from 'components/Spinner/Spinner'
-import { fetchSkills } from 'features/skill/fetchSkills'
-import { selectSkills } from 'features/skill/skillSlice'
-import { deleteSkill } from 'features/skill/deleteSkill'
+import { fetchCategories } from 'features/category/fetchCategories'
+import { selectCategories } from 'features/category/categorySlice'
+import { deleteCategory } from 'features/category/deleteCategory'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import PageTitle from '../components/Typography/PageTitle'
@@ -21,40 +21,42 @@ import {
   TableRow,
 } from '@windmill/react-ui'
 import { Icons } from 'icons'
-import { Skill } from 'models'
+import { Category } from 'models'
 import Modals from 'components/Modals/Modals'
 
 const { EditIcon, SortIcon, TrashIcon } = Icons
-function SkillPage() {
+function CategoryPage() {
   const [pageTable, setPageTable] = useState(1)
   const [searchName, setSearchName] = useState('')
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
-  const [selectedSkill, setSelecctedSkill] = useState<Skill | null>(null)
+  const [selectedCategory, setSelectedCategory] = useState<Category | null>(
+    null
+  )
   const [isAsc, setIsAsc] = useState(true)
   const dispatch = useAppDispatch()
-  const { skills } = useAppSelector(selectSkills)
+  const { categories } = useAppSelector(selectCategories)
 
   useEffect(() => {
-    dispatch(fetchSkills())
+    dispatch(fetchCategories())
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  let dataTable = skills
-  dataTable = dataTable.filter((skill: Skill) => {
-    return skill.description.toLowerCase().includes(searchName.toLowerCase())
+  let dataTable = categories
+  dataTable = dataTable.filter((skill: Category) => {
+    return skill.name.toLowerCase().includes(searchName.toLowerCase())
   })
 
   dataTable.slice().sort((a, b) => {
     if (isAsc) {
-      return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+      return new Date(a.createAt).getTime() - new Date(b.createAt).getTime()
     } else {
-      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      return new Date(b.createAt).getTime() - new Date(a.createAt).getTime()
     }
   })
 
   // pagination setup
   const resultsPerPage = 10
-  const totalResults = skills.length
+  const totalResults = categories.length
 
   dataTable = dataTable.slice(
     (pageTable - 1) * resultsPerPage,
@@ -70,8 +72,8 @@ function SkillPage() {
     setIsAsc(!isAsc)
   }
 
-  function handleDeleteModalOpen(skill: Skill) {
-    setSelecctedSkill(skill)
+  function handleDeleteModalOpen(category: Category) {
+    setSelectedCategory(category)
     setDeleteModalOpen(true)
   }
 
@@ -79,12 +81,15 @@ function SkillPage() {
     setDeleteModalOpen(false)
   }
 
-  async function handleDeleteSkill() {
-    console.log('delete')
-    const actionResult = await dispatch(deleteSkill(Number(selectedSkill?.id)))
-    if (deleteSkill.fulfilled.match(actionResult)) {
+  async function handleDeleteCategory() {
+    setDeleteModalOpen(false)
+    const actionResult = await dispatch(
+      deleteCategory(Number(selectedCategory?.id))
+    )
+    if (deleteCategory.fulfilled.match(actionResult)) {
       toast.success('Xóa kỹ năng thành công')
-      setDeleteModalOpen(false)
+    } else {
+      toast.error('Xóa kỹ năng thất bại')
     }
   }
 
@@ -96,7 +101,7 @@ function SkillPage() {
         </Button>
       </div>
       <div className="hidden sm:block">
-        <Button onClick={handleDeleteSkill}>Đồng ý</Button>
+        <Button onClick={handleDeleteCategory}>Đồng ý</Button>
       </div>
       <div className="block w-full sm:hidden">
         <Button
@@ -109,7 +114,7 @@ function SkillPage() {
         </Button>
       </div>
       <div className="block w-full sm:hidden">
-        <Button onClick={handleDeleteSkill} block size="large">
+        <Button onClick={handleDeleteCategory} block size="large">
           Đồng ý
         </Button>
       </div>
@@ -119,11 +124,11 @@ function SkillPage() {
   return (
     <>
       <div className="flex justify-between">
-        <PageTitle>Kỹ năng</PageTitle>
+        <PageTitle>Danh mục</PageTitle>
         <div className="my-6">
           <Link to="/skills/create">
             <Button>
-              Tạo kỹ năng
+              Tạo danh mục
               <span className="ml-2" aria-hidden="true">
                 +
               </span>
@@ -142,7 +147,7 @@ function SkillPage() {
         />
       </div>
       {/* <SectionTitle>Table with actions</SectionTitle> */}
-      {skills.length === 0 ? (
+      {categories.length === 0 ? (
         <Spinner />
       ) : (
         <TableContainer className="mb-8">
@@ -150,39 +155,39 @@ function SkillPage() {
             <TableHeader>
               <tr>
                 <TableCell>Id</TableCell>
-                <TableCell>Description</TableCell>
+                <TableCell>Tên danh mục</TableCell>
                 <TableCell>
                   <div className="flex items-center">
-                    <span>Date Created</span>
+                    <span>Ngày tạo</span>
                     <button onClick={onSortChange}>
                       <SortIcon className="ml-1" />
                     </button>
                   </div>
                 </TableCell>
-                <TableCell className="text-center">Actions</TableCell>
+                <TableCell className="text-center">Thao tác</TableCell>
               </tr>
             </TableHeader>
             <TableBody>
-              {dataTable?.map((skill: Skill, i: number) => (
+              {dataTable?.map((category: Category, i: number) => (
                 <TableRow key={i}>
                   <TableCell>
                     <div className="flex items-center text-sm">
                       <div>
-                        <p className="font-semibold">{skill.id}</p>
+                        <p className="font-semibold">{category.id}</p>
                       </div>
                     </div>
                   </TableCell>
                   <TableCell>
-                    <span className="text-sm">{skill.description}</span>
+                    <span className="text-sm">{category.name}</span>
                   </TableCell>
                   <TableCell>
                     <span className="text-sm">
-                      {new Date(skill.createdAt).toLocaleDateString()}
+                      {new Date(category.createAt).toLocaleDateString()}
                     </span>
                   </TableCell>
                   <TableCell>
                     <div className="flex justify-center items-center space-x-2">
-                      <Link to={`/skills/${skill.id}`}>
+                      <Link to={`/categories/${category.id}`}>
                         <Button layout="link" size="small" aria-label="Edit">
                           <EditIcon
                             className="w-5 h-5 text-blue-400"
@@ -191,7 +196,7 @@ function SkillPage() {
                         </Button>
                       </Link>
                       <Button
-                        onClick={() => handleDeleteModalOpen(skill)}
+                        onClick={() => handleDeleteModalOpen(category)}
                         layout="link"
                         size="small"
                         aria-label="Delete"
@@ -223,10 +228,10 @@ function SkillPage() {
         header="Chú ý"
         actions={deleteModalActions}
       >
-        {`Bạn muốn xóa kỹ năng ${selectedSkill?.description} ?`}
+        {`Bạn muốn xóa danh mục ${selectedCategory?.name} ?`}
       </Modals>
     </>
   )
 }
 
-export default SkillPage
+export default CategoryPage

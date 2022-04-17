@@ -3,6 +3,7 @@ import { Admin } from 'models'
 import { fetchAdmins } from './fetchAdmins'
 import { createAdmin } from './createAdmins'
 import { RootState } from 'app/store'
+import { fetchAdminById } from './fetchAdminById'
 
 export interface AdminsState {
   admins: Admin[]
@@ -44,6 +45,15 @@ export const adminsSlice = createSlice({
     })
     builder.addCase(createAdmin.rejected, (state, action) => {
       state.error = action.payload?.message as string
+    })
+
+    builder.addCase(fetchAdminById.fulfilled, (state, action) => {
+      state.admins = state.admins.map((admin) => {
+        if (admin.id === action.payload.id) {
+          return action.payload
+        }
+        return admin
+      })
     })
   },
 })

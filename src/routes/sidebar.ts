@@ -17,14 +17,29 @@ const routes = [
     name: 'Admins',
   },
   {
+    path: '/mentors',
+    icon: 'PeopleIcon',
+    name: 'Mentors',
+  },
+  {
     path: '/users',
     icon: 'PeopleIcon',
-    name: 'Users',
+    name: 'Mentees',
   },
   {
     path: '/skills',
     icon: 'ClassIcon',
     name: 'Skills',
+  },
+  {
+    path: '/categories',
+    icon: 'ClassIcon',
+    name: 'Categories',
+  },
+  {
+    path: '/tokens',
+    icon: 'ClassIcon',
+    name: 'Tokens',
   },
 ]
 

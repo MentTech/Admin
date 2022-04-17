@@ -5,15 +5,15 @@ import { Link, useParams, useNavigate } from 'react-router-dom'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { useAppDispatch, useAppSelector } from 'app/hook'
-import { fetchSkill } from 'features/skill/fetchSkill'
+import { fetchCategoryById } from 'features/category/fetchCategoryById'
+import { updateCategory } from 'features/category/updateCategory'
+import { selectCategories } from 'features/category/categorySlice'
 import { toast } from 'react-toastify'
 import { useEffect } from 'react'
-import { selectSkills } from 'features/skill/skillSlice'
-import { editSkill } from 'features/skill/editSkill'
 
 const schema = yup
   .object({
-    description: yup.string().required('Tên kỹ năng không được để trống'),
+    name: yup.string().required('Name is required'),
   })
   .required()
 
@@ -30,24 +30,26 @@ function SkillCreate() {
   let { id } = useParams()
   let navigate = useNavigate()
   const dispatch = useAppDispatch()
-  const { skills } = useAppSelector(selectSkills)
+  const { categories } = useAppSelector(selectCategories)
 
-  let currentSkill = skills.find(
-    (skill) => skill.id.toString() === id?.toString()
+  let currentCategory = categories.find(
+    (category) => category.id.toString() === id?.toString()
   )
 
-  setValue('description', currentSkill?.description)
+  setValue('name', currentCategory?.name)
 
   useEffect(() => {
-    dispatch(fetchSkill(Number(id)))
+    dispatch(fetchCategoryById(Number(id)))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  async function onSubmit(data: any) {
-    const actionResult = await dispatch(editSkill({ id: Number(id), data }))
-    if (editSkill.fulfilled.match(actionResult)) {
-      toast.success('Skill updated successfully')
-      navigate('/skills')
+  async function onSubmit(formData: any) {
+    const actionResult = await dispatch(
+      updateCategory({ categoryId: Number(id), formData })
+    )
+    if (updateCategory.fulfilled.match(actionResult)) {
+      toast.success('Cập nhật danh mục thành công')
+      navigate('/categories')
     } else {
       toast.error(actionResult.payload?.message)
     }
@@ -56,9 +58,9 @@ function SkillCreate() {
   return (
     <>
       <div className="flex justify-between items-center">
-        <PageTitle>Update Skill</PageTitle>
+        <PageTitle>Cập nhật danh mục</PageTitle>
         <div>
-          <Link to="/skills">
+          <Link to="/categories">
             <Button>Back</Button>
           </Link>
         </div>
@@ -67,21 +69,21 @@ function SkillCreate() {
       <div className="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
         <form onSubmit={handleSubmit(onSubmit)}>
           <Label>
-            <span>Tên kỹ năng</span>
+            <span>Tên danh mục</span>
             <Input
-              {...register('description')}
+              {...register('name')}
               css=""
               className="mt-1"
-              placeholder="Tên kỹ năng"
+              placeholder="Tên danh mục"
               type="text"
-              valid={errors.description === undefined}
+              valid={errors.name === undefined}
             />
-            <HelperText valid={false}>{errors.description?.message}</HelperText>
+            <HelperText valid={false}>{errors.name?.message}</HelperText>
           </Label>
 
           <div className="flex justify-center">
             <Button className="mt-6" type="submit">
-              Update
+              Cập nhật
             </Button>
           </div>
         </form>

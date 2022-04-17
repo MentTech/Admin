@@ -1,9 +1,11 @@
 export interface Admin {
+  id: string
   name: string
   email: string
   birthday: Date
   phone: string
   avatar: string
+  createAt: Date
 }
 
 export interface AdminFormData {

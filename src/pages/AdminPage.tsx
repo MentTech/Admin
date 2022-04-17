@@ -38,14 +38,14 @@ function AdminPage() {
   }, [])
 
   let dataTable = admins
-  dataTable = dataTable.filter((admin: Admin) => {
-    return (
-      admin.name.toLowerCase().includes(searchName.toLowerCase()) &&
-      admin.email.toLowerCase().includes(searchEmail.toLowerCase())
-    )
-  })
+  // dataTable = dataTable.filter((admin: Admin) => {
+  //   return (
+  //     admin.name.toLowerCase().includes(searchName.toLowerCase()) &&
+  //     admin.email.toLowerCase().includes(searchEmail.toLowerCase())
+  //   )
+  // })
 
-  dataTable = dataTable.sort((a: any, b: any) => {
+  dataTable = dataTable.slice().sort((a: any, b: any) => {
     if (isAsc) {
       return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
     } else {
@@ -74,11 +74,11 @@ function AdminPage() {
   return (
     <>
       <div className="flex justify-between">
-        <PageTitle>Admins</PageTitle>
+        <PageTitle>Quản trị viên</PageTitle>
         <div className="my-6">
           <Link to="/admins/create">
             <Button>
-              Create account
+              Tạo tài khoản
               <span className="ml-2" aria-hidden="true">
                 +
               </span>
@@ -90,7 +90,7 @@ function AdminPage() {
         <Input
           className="mr-4"
           aria-label="Bad"
-          placeholder="Name"
+          placeholder="Họ tên"
           css=""
           value={searchName}
           onChange={(e) => setSearchName(e.target.value)}
@@ -111,18 +111,18 @@ function AdminPage() {
           <Table>
             <TableHeader>
               <tr>
-                <TableCell>Admin</TableCell>
+                <TableCell>Họ và tên</TableCell>
                 <TableCell>Email</TableCell>
-                <TableCell>Phone Number</TableCell>
+                <TableCell>Số điện thoại</TableCell>
                 <TableCell>
                   <div className="flex items-center">
-                    <span>Date Created</span>
+                    <span>Ngày tạo</span>
                     <button onClick={onSortChange}>
                       <SortIcon className="ml-1" />
                     </button>
                   </div>
                 </TableCell>
-                <TableCell>Actions</TableCell>
+                <TableCell>Thao tác</TableCell>
               </tr>
             </TableHeader>
             <TableBody>
@@ -151,12 +151,12 @@ function AdminPage() {
                   </TableCell>
                   <TableCell>
                     <span className="text-sm">
-                      {new Date(user.createdAt).toLocaleDateString()}
+                      {new Date(user.createAt).toLocaleDateString()}
                     </span>
                   </TableCell>
                   <TableCell>
                     <div className="flex justify-center items-center space-x-4">
-                      <Link to={`/admins/${user._id}`}>
+                      <Link to={`/admins/${user.id}`}>
                         <Button layout="link" size="small" aria-label="Edit">
                           <EditIcon className="w-5 h-5" aria-hidden="true" />
                         </Button>
