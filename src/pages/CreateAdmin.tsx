@@ -9,16 +9,20 @@ import { createAdmin } from 'features/admin/createAdmins'
 
 const schema = yup
   .object({
-    email: yup.string().email().required('Email is required'),
-    name: yup.string().min(2).max(50).required('Fullname is required'),
-    phone: yup.string().max(24).required('Phone number is required'),
-    password: yup.string().min(8).max(16).required('Password is required'),
+    email: yup.string().email().required('Email không được bỏ trống'),
+    name: yup.string().min(2).max(50).required('Tên không được bỏ trống'),
+    phone: yup.string().max(24).required('Số điện thoại không được bỏ trống'),
+    password: yup
+      .string()
+      .min(8)
+      .max(16)
+      .required('Mật khẩu không được bỏ trống'),
     confirmPassword: yup
       .string()
       .min(8)
       .max(16)
-      .required('Conform password is required')
-      .oneOf([yup.ref('password')], 'Password must match'),
+      .required('Xác nhận mật khẩu không được bỏ trống')
+      .oneOf([yup.ref('password')], 'Mật khẩu không khớp'),
   })
   .required()
 
@@ -40,10 +44,10 @@ function CreateAdmin() {
   return (
     <>
       <div className="flex justify-between items-center">
-        <PageTitle>Create Admin</PageTitle>
+        <PageTitle>Tạo quản trị viên</PageTitle>
         <div>
           <Link to="/admins">
-            <Button>Back</Button>
+            <Button>Quay lại</Button>
           </Link>
         </div>
       </div>
@@ -64,11 +68,11 @@ function CreateAdmin() {
           </Label>
 
           <Label className="mt-4">
-            <span>Full name</span>
+            <span>Họ và tên</span>
             <Input
               {...register('name')}
               className="mt-1"
-              placeholder="Fullname"
+              placeholder="Họ và tên"
               css=""
               valid={errors.name === undefined}
             />
@@ -76,12 +80,12 @@ function CreateAdmin() {
           </Label>
 
           <Label className="mt-4">
-            <span>Phone Number</span>
+            <span>Số điện thoại</span>
             <Input
               {...register('phone')}
               className="mt-1"
               css=""
-              placeholder="Phone Number"
+              placeholder="Số điện thoại"
               type="number"
               valid={errors.phone === undefined}
             />
@@ -89,12 +93,12 @@ function CreateAdmin() {
           </Label>
 
           <Label className="mt-4">
-            <span>Password</span>
+            <span>Mật khẩu</span>
             <Input
               {...register('password')}
               css=""
               className="mt-1"
-              placeholder="Password"
+              placeholder="Mật khẩu"
               type="password"
               valid={errors.password === undefined}
             />
@@ -102,12 +106,12 @@ function CreateAdmin() {
           </Label>
 
           <Label className="mt-4">
-            <span>Confirm password</span>
+            <span>Xác nhận mật khẩu</span>
             <Input
               {...register('confirmPassword')}
               css=""
               className="mt-1"
-              placeholder="Confirm password"
+              placeholder="Xác nhận mật khẩu"
               type="password"
               valid={errors.password2 === undefined}
             />

@@ -4,6 +4,7 @@ import authReducer from '../features/auth/authSlice'
 import adminsReducer from 'features/admin/adminsSlice'
 import skillReducer from 'features/skill/skillSlice'
 import categoryReducer from 'features/category/categorySlice'
+import mentorReducer from 'features/mentor/mentorSlice'
 import { loadState, setState } from 'utils/localStorage'
 
 const preloadedState = {
@@ -17,6 +18,7 @@ export const store = configureStore({
     admins: adminsReducer,
     skills: skillReducer,
     categories: categoryReducer,
+    mentors: mentorReducer,
   },
   preloadedState,
 })

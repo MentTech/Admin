@@ -14,7 +14,7 @@ export const fetchAdmins = createAsyncThunk<
   }
 >('admin/fetchAdmins', async (_: void, thunkApi) => {
   try {
-    const res = await axiosClient.get('/admin')
+    const res = await axiosClient.get('/admin/?limit=1000')
     return res.data.data as Admin[]
   } catch (err) {
     return thunkApi.rejectWithValue({

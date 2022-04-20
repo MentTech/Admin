@@ -37,9 +37,9 @@ const routes = [
     name: 'Categories',
   },
   {
-    path: '/tokens',
+    path: '/giftcodes',
     icon: 'ClassIcon',
-    name: 'Tokens',
+    name: 'Giftcodes',
   },
 ]
 

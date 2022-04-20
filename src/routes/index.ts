@@ -10,7 +10,10 @@ const EditSkill = lazy(() => import('pages/EditSkill'))
 const CategoryPage = lazy(() => import('pages/CategoryPage'))
 const EditCategory = lazy(() => import('pages/EditCategory'))
 const AdminDetail = lazy(() => import('pages/AdminDetail'))
-const MentorPage = lazy(() => import('pages/MentorsPage'))
+const MentorPage = lazy(() => import('pages/MentorPage'))
+const GiftCard = lazy(() => import('pages/GiftCardPage'))
+const CreateGiffCodedPage = lazy(() => import('pages/CreateGiftCodePage'))
+const MentorDetail = lazy(() => import('pages/MentorDetail'))
 // const UsersPage = lazy(() => import('../pages/UsersPage'));
 // const ClassPage = lazy(() => import('../pages/ClassPage'));
 // const UserDetail = lazy(() => import('../pages/UserDetail'));
@@ -56,6 +59,22 @@ const routes = [
   {
     path: 'categories/:id',
     component: EditCategory,
+  },
+  {
+    path: 'giftcodes',
+    component: GiftCard,
+  },
+  {
+    path: 'giftcodes/create',
+    component: CreateGiffCodedPage,
+  },
+  {
+    path: 'mentors',
+    component: MentorPage,
+  },
+  {
+    path: 'mentors/:id',
+    component: MentorDetail,
   },
   // {
   //   path: 'admins/:id', // the url
