@@ -3,58 +3,51 @@ import PageTitle from '../components/Typography/PageTitle'
 import { Link } from 'react-router-dom'
 import { Input, HelperText, Label, Button } from '@windmill/react-ui'
 import DefaultAvatar from '../assets/img/unnamed.png'
-import { fetchAdminById } from 'features/admin/fetchAdminById'
-import { selectAdmins } from 'features/admin/adminsSlice'
+import { selectMentors } from 'features/mentor/mentorSlice'
 import { useAppDispatch, useAppSelector } from 'app/hook'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
 import * as yup from 'yup'
-import { Admin } from 'models'
-
-const schema = yup
-  .object({
-    name: yup.string().min(2).max(50).required('Fullname is required'),
-    phoneNumber: yup.string().max(24).required('Phone number is required'),
-  })
-  .required()
+import { Mentor } from 'models'
+import { fetchMentorById } from 'features/mentor/fetchMentorById'
+import ThemedSuspense from 'components/ThemedSuspense'
 
 function MentorDetail(props: any) {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
-  })
+  } = useForm()
 
   let { id } = useParams()
 
   const dispatch = useAppDispatch()
-  const { admins } = useAppSelector(selectAdmins)
+  const { mentors } = useAppSelector(selectMentors)
 
-  let matchedAdmin = admins.find((admin: Admin) => {
-    return admin.id.toString() === id?.toString()
+  let matchedMentor = mentors.find((mentor: Mentor) => {
+    return mentor.id.toString() === id?.toString()
   })
 
-  // useEffect(() => {
-  //   dispatch(fetchAdminById(id))
-  // }, [])
+  useEffect(() => {
+    dispatch(fetchMentorById(id as string))
+  }, [])
 
   function onSubmit(data: any) {
     props.editAdmin(props.auth.user._id, data)
   }
-  // const isMyProfile =
-  //   id.toString() === props.auth.user._id.toString()
-  // const { admin } = props
+
+  if (matchedMentor === undefined) {
+    return <ThemedSuspense />
+  }
 
   return (
     <>
       <div className="flex justify-between items-center">
         <PageTitle>Thông tin mentor</PageTitle>
         <div>
-          <Link to="/admins">
-            <Button>Back</Button>
+          <Link to="/mentors">
+            <Button>Quay lại</Button>
           </Link>
         </div>
       </div>
@@ -64,7 +57,7 @@ function MentorDetail(props: any) {
           <div className="flex-shrink-0 flex justify-center w-64">
             <img
               className="mt-8 w-28 h-28 rounded-full"
-              src={DefaultAvatar}
+              src={matchedMentor.avatar || DefaultAvatar}
               alt="avatar"
             />
           </div>
@@ -73,29 +66,26 @@ function MentorDetail(props: any) {
               <Label>
                 <span>Họ và tên</span>
                 <Input
-                  {...register('name')}
                   className="mt-1"
                   placeholder="Fullname"
-                  defaultValue={matchedAdmin?.name}
+                  defaultValue={matchedMentor?.name}
                   disabled
-                  valid={errors.name === undefined}
                   css=""
+                  valid
                 />
-                <HelperText valid={false}>{errors.name?.message}</HelperText>
               </Label>
 
               <Label className="mt-4">
                 <span>Email</span>
                 <Input
-                  {...register('email')}
                   disabled
-                  defaultValue={matchedAdmin?.email}
+                  value={matchedMentor?.email}
                   className="mt-1"
                   placeholder="Email"
                   type="email"
                   css=""
+                  valid
                 />
-                <HelperText valid={false}>{errors.email?.message}</HelperText>
               </Label>
 
               <Label className="mt-4">
@@ -103,46 +93,34 @@ function MentorDetail(props: any) {
                 <Input
                   disabled
                   className="mt-1"
+                  valid
                   css=""
-                  type="number"
-                  defaultValue={new Date(
-                    matchedAdmin?.birthday as Date
+                  value={new Date(
+                    matchedMentor?.birthday as Date
                   ).toLocaleDateString()}
-                  valid={errors.phoneNumber === undefined}
                 />
-                <HelperText valid={false}>
-                  {errors.phoneNumber?.message}
-                </HelperText>
               </Label>
 
               <Label className="mt-4">
                 <span>Số điện thoại</span>
                 <Input
-                  {...register('phoneNumber')}
                   disabled
                   className="mt-1"
                   css=""
                   placeholder="Phone Number"
                   type="number"
-                  defaultValue={matchedAdmin?.phone}
-                  valid={errors.phoneNumber === undefined}
+                  value={matchedMentor?.phone}
+                  valid
                 />
-                <HelperText valid={false}>
-                  {errors.phoneNumber?.message}
-                </HelperText>
               </Label>
 
               <Label className="mt-4">
                 <span>
                   Ngày tạo:{' '}
                   {new Date(
-                    matchedAdmin?.createAt as Date
+                    matchedMentor?.createAt as Date
                   ).toLocaleDateString()}
                 </span>
-
-                <HelperText valid={false}>
-                  {errors.phoneNumber?.message}
-                </HelperText>
               </Label>
 
               {/* {isMyProfile && (

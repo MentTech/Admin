@@ -37,9 +37,9 @@ function AdminDetail(props: any) {
     return admin.id.toString() === id?.toString()
   })
 
-  // useEffect(() => {
-  //   dispatch(fetchAdminById(id))
-  // }, [])
+  useEffect(() => {
+    dispatch(fetchAdminById(Number(id)))
+  }, [])
 
   function onSubmit(data: any) {
     props.editAdmin(props.auth.user._id, data)

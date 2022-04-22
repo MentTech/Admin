@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { Mentor } from 'models'
 import { fetchMentors } from 'features/mentor/fetchMentors'
+import { fetchMentorById } from 'features/mentor/fetchMentorById'
 
 interface MentorState {
   mentors: Mentor[]
@@ -17,6 +18,17 @@ export const mentorSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchMentors.fulfilled, (state, action) => {
       state.mentors = action.payload
+    })
+
+    builder.addCase(fetchMentorById.fulfilled, (state, action) => {
+      const index = state.mentors.findIndex(
+        (mentor) => mentor.id === action.payload.id
+      )
+      if (index === -1) {
+        state.mentors.push(action.payload)
+      } else {
+        state.mentors[index] = action.payload
+      }
     })
   },
 })

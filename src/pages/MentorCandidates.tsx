@@ -3,8 +3,8 @@ import PageTitle from '../components/Typography/PageTitle'
 import { Link } from 'react-router-dom'
 import { Input } from '@windmill/react-ui'
 import Spinner from 'components/Spinner/Spinner'
-import { fetchMentors } from 'features/mentor/fetchMentors'
-import { selectMentors } from 'features/mentor/mentorSlice'
+import { fetchCandidates } from 'features/candidate/fetchCandidates'
+import { selectCandidates } from 'features/candidate/candidateSlice'
 import { useAppDispatch, useAppSelector } from 'app/hook'
 
 import {
@@ -25,20 +25,20 @@ import { Icons } from 'icons'
 import { Mentor } from 'models'
 
 const { EditIcon, SortIcon } = Icons
-function MentorPage() {
+function MentorCandidates() {
   const [pageTable, setPageTable] = useState(1)
   const [searchName, setSearchName] = useState('')
   const [searchEmail, setSearchEmail] = useState('')
   const [isAsc, setIsAsc] = useState(true)
   const dispatch = useAppDispatch()
-  const { mentors } = useAppSelector(selectMentors)
+  const { candidates, status } = useAppSelector(selectCandidates)
 
   useEffect(() => {
-    dispatch(fetchMentors())
+    dispatch(fetchCandidates())
   }, [])
 
-  let dataTable = mentors
-  dataTable = dataTable.filter((mentor: Mentor) => {
+  let dataTable = candidates
+  dataTable = dataTable.filter((mentor: any) => {
     return (
       mentor.name.toLowerCase().includes(searchName.toLowerCase()) &&
       mentor.email.toLowerCase().includes(searchEmail.toLowerCase())
@@ -55,7 +55,7 @@ function MentorPage() {
 
   // pagination setup
   const resultsPerPage = 10
-  const totalResults = mentors.length
+  const totalResults = candidates.length
 
   dataTable = dataTable.slice(
     (pageTable - 1) * resultsPerPage,
@@ -74,12 +74,7 @@ function MentorPage() {
   return (
     <>
       <div className="flex justify-between">
-        <PageTitle>Quản lý mentors</PageTitle>
-        <div className="my-6">
-          <Link to="/mentors/candidates">
-            <Button>Duyệt mentor</Button>
-          </Link>
-        </div>
+        <PageTitle>Duyệt mentor</PageTitle>
       </div>
       <div className="flex mb-4">
         <Input
@@ -98,9 +93,10 @@ function MentorPage() {
           onChange={(e) => setSearchEmail(e.target.value)}
         />
       </div>
-      {/* <SectionTitle>Table with actions</SectionTitle> */}
-      {mentors.length === 0 ? (
+      {status === 'pending' ? (
         <Spinner />
+      ) : candidates.length === 0 ? (
+        'Không tìm thấy ứng viên nào.'
       ) : (
         <TableContainer className="mb-8">
           <Table>
@@ -169,4 +165,4 @@ function MentorPage() {
   )
 }
 
-export default MentorPage
+export default MentorCandidates
