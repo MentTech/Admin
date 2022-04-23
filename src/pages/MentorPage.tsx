@@ -38,6 +38,7 @@ function MentorPage() {
   }, [])
 
   let dataTable = mentors
+  console.log(mentors)
   dataTable = dataTable.filter((mentor: Mentor) => {
     return (
       mentor.name.toLowerCase().includes(searchName.toLowerCase()) &&

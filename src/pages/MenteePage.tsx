@@ -1,60 +1,62 @@
-import React, { useState, useEffect } from 'react'
-import PageTitle from '../components/Typography/PageTitle'
-import { Link } from 'react-router-dom'
 import { Input } from '@windmill/react-ui'
-import Spinner from 'components/Spinner/Spinner'
-import { fetchAdmins } from 'features/admin/fetchAdmins'
-import { selectAdmins } from 'features/admin/adminsSlice'
 import { useAppDispatch, useAppSelector } from 'app/hook'
+import Spinner from 'components/Spinner/Spinner'
+import { fetchAllMentees } from 'features/mentee/fetchAllMentees'
+import { selecteMentees } from 'features/mentee/menteeSlice'
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import PageTitle from '../components/Typography/PageTitle'
 
 import {
-  Table,
-  TableHeader,
-  TableCell,
-  TableBody,
-  TableRow,
-  TableFooter,
-  TableContainer,
-  Badge,
   Avatar,
+  Badge,
   Button,
   Pagination,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableFooter,
+  TableHeader,
+  TableRow,
 } from '@windmill/react-ui'
 import DefaultAvatar from 'assets/img/unnamed.png'
 import { Icons } from 'icons'
+import { Mentee } from 'models'
 
 const { EditIcon, SortIcon } = Icons
-function GiftCardPage() {
+function MenteePage() {
   const [pageTable, setPageTable] = useState(1)
   const [searchName, setSearchName] = useState('')
   const [searchEmail, setSearchEmail] = useState('')
   const [isAsc, setIsAsc] = useState(true)
   const dispatch = useAppDispatch()
-  const { admins } = useAppSelector(selectAdmins)
+  const { mentees } = useAppSelector(selecteMentees)
 
   useEffect(() => {
-    dispatch(fetchAdmins())
+    dispatch(fetchAllMentees())
   }, [])
 
-  let dataTable = admins
-  // dataTable = dataTable.filter((admin: Admin) => {
-  //   return (
-  //     admin.name.toLowerCase().includes(searchName.toLowerCase()) &&
-  //     admin.email.toLowerCase().includes(searchEmail.toLowerCase())
-  //   )
-  // })
-
-  dataTable = dataTable.slice().sort((a: any, b: any) => {
-    if (isAsc) {
-      return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-    } else {
-      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-    }
+  let dataTable = mentees
+  console.log(mentees)
+  dataTable = dataTable.filter((mentee: Mentee) => {
+    return (
+      mentee.name.toLowerCase().includes(searchName.toLowerCase()) &&
+      mentee.email.toLowerCase().includes(searchEmail.toLowerCase())
+    )
   })
+
+  // dataTable = dataTable.slice().sort((a: Mentee, b: Mentee) => {
+  //   if (isAsc) {
+  //     return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+  //   } else {
+  //     return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  //   }
+  // })
 
   // pagination setup
   const resultsPerPage = 10
-  const totalResults = admins.length
+  const totalResults = mentees.length
 
   dataTable = dataTable.slice(
     (pageTable - 1) * resultsPerPage,
@@ -73,17 +75,8 @@ function GiftCardPage() {
   return (
     <>
       <div className="flex justify-between">
-        <PageTitle>Quản lý mã quà tặng</PageTitle>
-        <div className="my-6">
-          <Link to="/giftcodes/create">
-            <Button>
-              Tạo mã quà tặng
-              <span className="ml-2" aria-hidden="true">
-                +
-              </span>
-            </Button>
-          </Link>
-        </div>
+        <PageTitle>Quản lý mentee</PageTitle>
+        <div className="my-6"></div>
       </div>
       <div className="flex mb-4">
         <Input
@@ -103,7 +96,7 @@ function GiftCardPage() {
         />
       </div>
       {/* <SectionTitle>Table with actions</SectionTitle> */}
-      {admins.length === 0 ? (
+      {mentees.length === 0 ? (
         <Spinner />
       ) : (
         <TableContainer className="mb-8">
@@ -137,7 +130,7 @@ function GiftCardPage() {
                       <div>
                         <p className="font-semibold">{user.name}</p>
                         <p className="text-xs text-gray-600 dark:text-gray-400">
-                          Super admin
+                          Mentee
                         </p>
                       </div>
                     </div>
@@ -155,7 +148,7 @@ function GiftCardPage() {
                   </TableCell>
                   <TableCell>
                     <div className="flex justify-center items-center space-x-4">
-                      <Link to={`/admins/${user.id}`}>
+                      <Link to="#">
                         <Button layout="link" size="small" aria-label="Edit">
                           <EditIcon className="w-5 h-5" aria-hidden="true" />
                         </Button>
@@ -180,4 +173,4 @@ function GiftCardPage() {
   )
 }
 
-export default GiftCardPage
+export default MenteePage

@@ -22,7 +22,7 @@ const routes = [
     name: 'Mentors',
   },
   {
-    path: '/users',
+    path: '/mentees',
     icon: 'PeopleIcon',
     name: 'Mentees',
   },
