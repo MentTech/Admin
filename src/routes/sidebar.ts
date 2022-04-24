@@ -13,12 +13,12 @@ const routes = [
   },
   {
     path: '/admins',
-    icon: 'PeopleIcon',
+    icon: 'AdminIcon',
     name: 'Admins',
   },
   {
     path: '/mentors',
-    icon: 'PeopleIcon',
+    icon: 'MentorIcon',
     name: 'Mentors',
   },
   {
@@ -28,17 +28,17 @@ const routes = [
   },
   {
     path: '/skills',
-    icon: 'ClassIcon',
+    icon: 'SkillIcon',
     name: 'Skills',
   },
   {
     path: '/categories',
-    icon: 'ClassIcon',
+    icon: 'CategoryIcon',
     name: 'Categories',
   },
   {
     path: '/giftcodes',
-    icon: 'ClassIcon',
+    icon: 'GiftIcon',
     name: 'Giftcodes',
   },
 ]

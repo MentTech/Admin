@@ -30,6 +30,11 @@ import { ReactComponent as LockIcon } from './lock.svg'
 import { ReactComponent as UnLockIcon } from './unlock.svg'
 import { ReactComponent as ClassIcon } from './class.svg'
 import { ReactComponent as SortIcon } from './sort.svg'
+import { ReactComponent as CategoryIcon } from './category.svg'
+import { ReactComponent as GiftIcon } from './gift.svg'
+import { ReactComponent as SkillIcon } from './skill.svg'
+import { ReactComponent as MentorIcon } from './mentor.svg'
+import { ReactComponent as AdminIcon } from './admin.svg'
 import React from 'react'
 
 interface myIcons {
@@ -69,4 +74,9 @@ export const Icons: myIcons = {
   UnLockIcon,
   ClassIcon,
   SortIcon,
+  CategoryIcon,
+  GiftIcon,
+  SkillIcon,
+  MentorIcon,
+  AdminIcon,
 }

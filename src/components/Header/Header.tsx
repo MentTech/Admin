@@ -149,19 +149,19 @@ function Header(props: any) {
                     aria-hidden="true"
                   />
 
-                  <span>Profile</span>
+                  <span>Trang cá nhân</span>
                 </DropdownItem>
               </Link>
-              <DropdownItem>
+              {/* <DropdownItem>
                 <OutlineCogIcon className="w-4 h-4 mr-3" aria-hidden="true" />
-                <span>Settings</span>
-              </DropdownItem>
+                <span>Cá</span>
+              </DropdownItem> */}
               <DropdownItem onClick={handleSignOut}>
                 <OutlineLogoutIcon
                   className="w-4 h-4 mr-3"
                   aria-hidden="true"
                 />
-                <span>Log out</span>
+                <span>Đăng xuất</span>
               </DropdownItem>
             </Dropdown>
           </li>
