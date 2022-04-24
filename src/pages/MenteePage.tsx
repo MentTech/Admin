@@ -1,4 +1,4 @@
-import { Input } from '@windmill/react-ui'
+import { Input, Label } from '@windmill/react-ui'
 import { useAppDispatch, useAppSelector } from 'app/hook'
 import Spinner from 'components/Spinner/Spinner'
 import { fetchAllMentees } from 'features/mentee/fetchAllMentees'
@@ -6,6 +6,7 @@ import { selecteMentees } from 'features/mentee/menteeSlice'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import PageTitle from '../components/Typography/PageTitle'
+import { toast } from 'react-toastify'
 
 import {
   Avatar,
@@ -21,15 +22,19 @@ import {
   TableRow,
 } from '@windmill/react-ui'
 import DefaultAvatar from 'assets/img/unnamed.png'
+import Modals from 'components/Modals/Modals'
 import { Icons } from 'icons'
 import { Mentee } from 'models'
+import { MenteeApi } from 'api'
 
-const { EditIcon, SortIcon } = Icons
+const { EditIcon, SortIcon, MoneyIcon } = Icons
 function MenteePage() {
   const [pageTable, setPageTable] = useState(1)
   const [searchName, setSearchName] = useState('')
   const [searchEmail, setSearchEmail] = useState('')
   const [isAsc, setIsAsc] = useState(true)
+  const [showTopupModal, setShowTopupModal] = useState(false)
+  const [selectedMentee, setSelectedMentee] = useState<Mentee | null>(null)
   const dispatch = useAppDispatch()
   const { mentees } = useAppSelector(selecteMentees)
 
@@ -38,7 +43,6 @@ function MenteePage() {
   }, [])
 
   let dataTable = mentees
-  console.log(mentees)
   dataTable = dataTable.filter((mentee: Mentee) => {
     return (
       mentee.name.toLowerCase().includes(searchName.toLowerCase()) &&
@@ -70,6 +74,62 @@ function MenteePage() {
 
   function onSortChange() {
     setIsAsc(!isAsc)
+  }
+
+  const TopupModalActions = (
+    <>
+      <div className="hidden sm:block">
+        <Button layout="outline" onClick={() => setShowTopupModal(false)}>
+          Hủy
+        </Button>
+      </div>
+      <div className="hidden sm:block">
+        <Button type="submit" form="topupForm">
+          Đồng ý
+        </Button>
+      </div>
+      <div className="block w-full sm:hidden">
+        <Button
+          block
+          size="large"
+          layout="outline"
+          onClick={() => setShowTopupModal(false)}
+        >
+          Hủy
+        </Button>
+      </div>
+      <div className="block w-full sm:hidden">
+        <Button block size="large" type="submit" form="topupForm">
+          Đồng ý
+        </Button>
+      </div>
+    </>
+  )
+
+  function handleShowTopupModal(mentee: Mentee) {
+    setSelectedMentee(mentee)
+    setShowTopupModal(true)
+  }
+
+  async function handleTopupSubmit(e: any) {
+    e.preventDefault()
+    if (e.target.amount.value <= 0 || e.target.value > 1000000) {
+      return
+    }
+    if (selectedMentee) {
+      try {
+        setShowTopupModal(false)
+        const res = await MenteeApi.topUpMentee(
+          selectedMentee.id,
+          Number(e.target.amount.value)
+        )
+        toast.success(
+          `${e.target.amount.value} đã được nạp vào tài khoản ${selectedMentee.name}.`
+        )
+      } catch (err) {
+        toast.error('Nạp thất bại')
+      }
+    }
   }
 
   return (
@@ -108,23 +168,24 @@ function MenteePage() {
                 <TableCell>Số điện thoại</TableCell>
                 <TableCell>
                   <div className="flex items-center">
-                    <span>Ngày tạo</span>
+                    <span>Ngày sinh</span>
                     <button onClick={onSortChange}>
                       <SortIcon className="ml-1" />
                     </button>
                   </div>
                 </TableCell>
+                <TableCell>Tokens</TableCell>
                 <TableCell>Thao tác</TableCell>
               </tr>
             </TableHeader>
             <TableBody>
-              {dataTable?.map((user: any, i: number) => (
+              {dataTable?.map((user: Mentee, i: number) => (
                 <TableRow key={i}>
                   <TableCell>
                     <div className="flex items-center text-sm">
                       <Avatar
                         className="hidden mr-3 md:block"
-                        src={DefaultAvatar}
+                        src={user.avatar || DefaultAvatar}
                         alt="User avatar"
                       />
                       <div>
@@ -139,12 +200,15 @@ function MenteePage() {
                     <span className="text-sm">{user.email}</span>
                   </TableCell>
                   <TableCell>
-                    <Badge type={user.status}>{user.phone}</Badge>
+                    <Badge type="primary">{user.phone}</Badge>
                   </TableCell>
                   <TableCell>
                     <span className="text-sm">
-                      {new Date(user.createAt).toLocaleDateString()}
+                      {new Date(user.birthDay as Date).toLocaleDateString()}
                     </span>
+                  </TableCell>
+                  <TableCell>
+                    <span className="text-sm"></span>
                   </TableCell>
                   <TableCell>
                     <div className="flex justify-center items-center space-x-4">
@@ -153,6 +217,14 @@ function MenteePage() {
                           <EditIcon className="w-5 h-5" aria-hidden="true" />
                         </Button>
                       </Link>
+                      <Button
+                        layout="link"
+                        size="small"
+                        aria-label="Edit"
+                        onClick={() => handleShowTopupModal(user)}
+                      >
+                        <MoneyIcon className="w-5 h-5" aria-hidden="true" />
+                      </Button>
                     </div>
                   </TableCell>
                 </TableRow>
@@ -169,6 +241,46 @@ function MenteePage() {
           </TableFooter>
         </TableContainer>
       )}
+      <Modals
+        isOpenModal={showTopupModal}
+        header="Nạp Token"
+        setClose={() => setShowTopupModal(false)}
+        actions={TopupModalActions}
+      >
+        <form id="topupForm" onSubmit={handleTopupSubmit}>
+          <Label className="mt-2">
+            <span>Email</span>
+            <Input
+              type="text"
+              disabled
+              value={selectedMentee?.email}
+              className="mt-1"
+              css=""
+            />
+          </Label>
+          <Label className="mt-2">
+            <span>Name</span>
+            <Input
+              type="text"
+              disabled
+              value={selectedMentee?.name}
+              className="mt-1"
+              css=""
+            />
+          </Label>
+          <Label className="mt-2">
+            <span>Token</span>
+            <Input
+              type="number"
+              min={0}
+              max={1000000}
+              name="amount"
+              className="mt-1"
+              css=""
+            />
+          </Label>
+        </form>
+      </Modals>
     </>
   )
 }
