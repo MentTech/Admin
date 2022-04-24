@@ -140,7 +140,7 @@ function MentorPage() {
                   </TableCell>
                   <TableCell>
                     <Badge type={`${user.isActive ? 'success' : 'danger'}`}>
-                      {user.isActive ? 'Đang hoạt động' : 'Đã bị khóa'}
+                      {user.isActive ? 'Đang hoạt động' : 'Chưa được duyệt'}
                     </Badge>
                   </TableCell>
                   <TableCell>

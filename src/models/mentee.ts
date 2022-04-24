@@ -5,4 +5,5 @@ export interface Mentee {
   birthDay?: Date
   phone?: number
   avatar?: string
+  coin: number
 }

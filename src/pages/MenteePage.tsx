@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import PageTitle from '../components/Typography/PageTitle'
 import { toast } from 'react-toastify'
+import { fetchMenteeById } from 'features/mentee/fetchMenteeById'
 
 import {
   Avatar,
@@ -27,7 +28,7 @@ import { Icons } from 'icons'
 import { Mentee } from 'models'
 import { MenteeApi } from 'api'
 
-const { EditIcon, SortIcon, MoneyIcon } = Icons
+const { EditIcon, SortIcon, MoneyIcon, LockIcon } = Icons
 function MenteePage() {
   const [pageTable, setPageTable] = useState(1)
   const [searchName, setSearchName] = useState('')
@@ -126,6 +127,7 @@ function MenteePage() {
         toast.success(
           `${e.target.amount.value} đã được nạp vào tài khoản ${selectedMentee.name}.`
         )
+        dispatch(fetchMenteeById(selectedMentee.id))
       } catch (err) {
         toast.error('Nạp thất bại')
       }
@@ -166,15 +168,8 @@ function MenteePage() {
                 <TableCell>Họ và tên</TableCell>
                 <TableCell>Email</TableCell>
                 <TableCell>Số điện thoại</TableCell>
-                <TableCell>
-                  <div className="flex items-center">
-                    <span>Ngày sinh</span>
-                    <button onClick={onSortChange}>
-                      <SortIcon className="ml-1" />
-                    </button>
-                  </div>
-                </TableCell>
                 <TableCell>Tokens</TableCell>
+                <TableCell>Trạng thái</TableCell>
                 <TableCell>Thao tác</TableCell>
               </tr>
             </TableHeader>
@@ -203,18 +198,19 @@ function MenteePage() {
                     <Badge type="primary">{user.phone}</Badge>
                   </TableCell>
                   <TableCell>
-                    <span className="text-sm">
-                      {new Date(user.birthDay as Date).toLocaleDateString()}
-                    </span>
+                    <span className="text-sm">{user.coin}</span>
                   </TableCell>
                   <TableCell>
-                    <span className="text-sm"></span>
+                    <Badge type="success">Đang hoạt động</Badge>
                   </TableCell>
                   <TableCell>
-                    <div className="flex justify-center items-center space-x-4">
+                    <div className="flex justify-center items-center space-x-1">
                       <Link to="#">
                         <Button layout="link" size="small" aria-label="Edit">
-                          <EditIcon className="w-5 h-5" aria-hidden="true" />
+                          <EditIcon
+                            className="w-5 h-5 text-blue-500"
+                            aria-hidden="true"
+                          />
                         </Button>
                       </Link>
                       <Button
@@ -223,7 +219,16 @@ function MenteePage() {
                         aria-label="Edit"
                         onClick={() => handleShowTopupModal(user)}
                       >
-                        <MoneyIcon className="w-5 h-5" aria-hidden="true" />
+                        <MoneyIcon
+                          className="w-5 h-5 text-green-500"
+                          aria-hidden="true"
+                        />
+                      </Button>
+                      <Button layout="link" size="small" aria-label="Delete">
+                        <LockIcon
+                          className="w-5 h-5 text-red-500"
+                          aria-hidden="true"
+                        />
                       </Button>
                     </div>
                   </TableCell>
@@ -256,6 +261,7 @@ function MenteePage() {
               value={selectedMentee?.email}
               className="mt-1"
               css=""
+              valid={true}
             />
           </Label>
           <Label className="mt-2">
@@ -266,6 +272,7 @@ function MenteePage() {
               value={selectedMentee?.name}
               className="mt-1"
               css=""
+              valid={true}
             />
           </Label>
           <Label className="mt-2">
@@ -274,6 +281,7 @@ function MenteePage() {
               type="number"
               min={0}
               max={1000000}
+              defaultValue={0}
               name="amount"
               className="mt-1"
               css=""

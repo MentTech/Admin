@@ -23,6 +23,9 @@ import {
 import DefaultAvatar from 'assets/img/unnamed.png'
 import { Icons } from 'icons'
 import { Mentor } from 'models'
+import Modals from 'components/Modals/Modals'
+import { acceptCandidate } from 'features/candidate/acceptCandidate'
+import { toast } from 'react-toastify'
 
 const { EditIcon, SortIcon } = Icons
 function MentorCandidates() {
@@ -30,6 +33,10 @@ function MentorCandidates() {
   const [searchName, setSearchName] = useState('')
   const [searchEmail, setSearchEmail] = useState('')
   const [isAsc, setIsAsc] = useState(true)
+  const [showAcceptMentorModal, setShowAcceptMentorModal] = useState(false)
+  const [selectedCandidate, setSelectedCandidate] = useState<Mentor | null>(
+    null
+  )
   const dispatch = useAppDispatch()
   const { candidates, status } = useAppSelector(selectCandidates)
 
@@ -71,10 +78,59 @@ function MentorCandidates() {
     setIsAsc(!isAsc)
   }
 
+  const acceptMentorActions = (
+    <>
+      <div className="hidden sm:block">
+        <Button layout="outline" onClick={handleCloseAcceptMentorModal}>
+          Hủy
+        </Button>
+      </div>
+      <div className="hidden sm:block">
+        <Button onClick={handleAcceptCandidate}>Đồng ý</Button>
+      </div>
+      <div className="block w-full sm:hidden">
+        <Button
+          block
+          size="large"
+          layout="outline"
+          onClick={handleCloseAcceptMentorModal}
+        >
+          Hủy
+        </Button>
+      </div>
+      <div className="block w-full sm:hidden">
+        <Button block size="large" onClick={handleAcceptCandidate}>
+          Đồng ý
+        </Button>
+      </div>
+    </>
+  )
+
+  function handleOpenAcceptMentorModal(candidate: Mentor) {
+    setSelectedCandidate(candidate)
+    setShowAcceptMentorModal(true)
+  }
+
+  function handleCloseAcceptMentorModal() {
+    setShowAcceptMentorModal(false)
+  }
+
+  async function handleAcceptCandidate() {
+    setShowAcceptMentorModal(false)
+    const actionResult = await dispatch(
+      acceptCandidate(selectedCandidate?.id as string)
+    )
+    if (acceptCandidate.fulfilled.match(actionResult)) {
+      toast.success('Duyệt thành công')
+    } else {
+      toast.error('Duyệt thất bại')
+    }
+  }
+
   return (
     <>
       <div className="flex justify-between">
-        <PageTitle>Duyệt mentor</PageTitle>
+        <PageTitle>Duyệt ứng viên</PageTitle>
       </div>
       <div className="flex mb-4">
         <Input
@@ -105,8 +161,7 @@ function MentorCandidates() {
                 <TableCell>Họ và tên</TableCell>
                 <TableCell>Email</TableCell>
                 <TableCell>Số điện thoại</TableCell>
-                <TableCell>Trạng thái</TableCell>
-                <TableCell>Thao tác</TableCell>
+                <TableCell className="text-center">Thao tác</TableCell>
               </tr>
             </TableHeader>
             <TableBody>
@@ -134,17 +189,15 @@ function MentorCandidates() {
                     <Badge type="primary">{user.phone}</Badge>
                   </TableCell>
                   <TableCell>
-                    <Badge type={`${user.isActive ? 'success' : 'danger'}`}>
-                      {user.isActive ? 'Đang hoạt động' : 'Đã bị khóa'}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex justify-center items-center space-x-4">
+                    <div className="flex justify-center items-center space-x-1">
                       <Link to={`/mentors/${user.id}`}>
                         <Button layout="link" size="small" aria-label="Edit">
                           <EditIcon className="w-5 h-5" aria-hidden="true" />
                         </Button>
                       </Link>
+                      <Button onClick={() => handleOpenAcceptMentorModal(user)}>
+                        Duyệt
+                      </Button>
                     </div>
                   </TableCell>
                 </TableRow>
@@ -161,6 +214,17 @@ function MentorCandidates() {
           </TableFooter>
         </TableContainer>
       )}
+
+      <Modals
+        isOpenModal={showAcceptMentorModal}
+        actions={acceptMentorActions}
+        header="Duyệt mentor"
+        setClose={() => setShowAcceptMentorModal(false)}
+      >
+        <div>
+          <p>{`Bạn chắc chắn muốn duyệt ứng viên ${selectedCandidate?.name} thành mentor?`}</p>
+        </div>
+      </Modals>
     </>
   )
 }

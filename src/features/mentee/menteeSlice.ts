@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import { RootState } from 'app/store'
 import { Mentee } from 'models'
 import { fetchAllMentees } from './fetchAllMentees'
+import { fetchMenteeById } from './fetchMenteeById'
 
 interface MenteeState {
   mentees: Mentee[]
@@ -25,6 +26,17 @@ export const menteeSlice = createSlice({
     builder.addCase(fetchAllMentees.fulfilled, (state, action) => {
       state.mentees = action.payload
       state.status = 'success'
+    })
+
+    builder.addCase(fetchMenteeById.fulfilled, (state, action) => {
+      const index = state.mentees.findIndex(
+        (mentee) => mentee.id === action.payload.id
+      )
+      if (index !== -1) {
+        state.mentees[index] = action.payload
+      } else {
+        state.mentees = [...state.mentees, action.payload]
+      }
     })
   },
 })

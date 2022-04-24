@@ -20,4 +20,7 @@ export const mentorApi = {
   getMentorCandidates: () => {
     return axiosClient.get(`/mentor?pending=false`)
   },
+  acceptCandidate: (id: string) => {
+    return axiosClient.post(`/mentor/${id}/accept`)
+  },
 }
