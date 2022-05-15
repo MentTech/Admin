@@ -6,4 +6,5 @@ export interface Mentee {
   phone?: number
   avatar?: string
   coin: number
+  isActive: boolean
 }

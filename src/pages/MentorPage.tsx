@@ -23,8 +23,11 @@ import {
 import DefaultAvatar from 'assets/img/unnamed.png'
 import { Icons } from 'icons'
 import { Mentor } from 'models'
+import { toast } from 'react-toastify'
+import { lockMentor } from 'features/mentor/lockMentor'
+import { unlockMentor } from 'features/mentor/unlockMentor'
 
-const { EditIcon, SortIcon } = Icons
+const { EditIcon, SortIcon, LockIcon, UnlockIcon } = Icons
 function MentorPage() {
   const [pageTable, setPageTable] = useState(1)
   const [searchName, setSearchName] = useState('')
@@ -70,6 +73,24 @@ function MentorPage() {
 
   function onSortChange() {
     setIsAsc(!isAsc)
+  }
+
+  async function handleLockUser(user: Mentor) {
+    if (user.isActive) {
+      const actionResult = await dispatch(lockMentor(user.id))
+      if (lockMentor.fulfilled.match(actionResult)) {
+        toast.success('Khóa thành công')
+      } else {
+        toast.error('Khóa thất bại')
+      }
+    } else {
+      const actionResult = await dispatch(unlockMentor(user.id))
+      if (unlockMentor.fulfilled.match(actionResult)) {
+        toast.success('Mở khóa thành công')
+      } else {
+        toast.error('Mở khóa thất bại')
+      }
+    }
   }
 
   return (
@@ -140,7 +161,7 @@ function MentorPage() {
                   </TableCell>
                   <TableCell>
                     <Badge type={`${user.isActive ? 'success' : 'danger'}`}>
-                      {user.isActive ? 'Đang hoạt động' : 'Chưa được duyệt'}
+                      {user.isActive ? 'Đang hoạt động' : 'Đã khóa'}
                     </Badge>
                   </TableCell>
                   <TableCell>
@@ -150,6 +171,32 @@ function MentorPage() {
                           <EditIcon className="w-5 h-5" aria-hidden="true" />
                         </Button>
                       </Link>
+
+                      {user.isActive ? (
+                        <Button
+                          layout="link"
+                          size="small"
+                          aria-label="Delete"
+                          onClick={() => handleLockUser(user)}
+                        >
+                          <LockIcon
+                            className="w-5 h-5 text-red-500"
+                            aria-hidden="true"
+                          />
+                        </Button>
+                      ) : (
+                        <Button
+                          layout="link"
+                          size="small"
+                          aria-label="Delete"
+                          onClick={() => handleLockUser(user)}
+                        >
+                          <UnlockIcon
+                            className="w-5 h-5 text-red-500"
+                            aria-hidden="true"
+                          />
+                        </Button>
+                      )}
                     </div>
                   </TableCell>
                 </TableRow>

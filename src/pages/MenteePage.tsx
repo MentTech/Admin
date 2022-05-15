@@ -8,6 +8,8 @@ import { Link } from 'react-router-dom'
 import PageTitle from '../components/Typography/PageTitle'
 import { toast } from 'react-toastify'
 import { fetchMenteeById } from 'features/mentee/fetchMenteeById'
+import { lockMentee } from 'features/mentee/lockMentee'
+import { unlockMentee } from 'features/mentee/unlockMentee'
 
 import {
   Avatar,
@@ -28,7 +30,7 @@ import { Icons } from 'icons'
 import { Mentee } from 'models'
 import { MenteeApi } from 'api'
 
-const { EditIcon, SortIcon, MoneyIcon, LockIcon } = Icons
+const { EditIcon, SortIcon, MoneyIcon, LockIcon, UnlockIcon } = Icons
 function MenteePage() {
   const [pageTable, setPageTable] = useState(1)
   const [searchName, setSearchName] = useState('')
@@ -50,6 +52,8 @@ function MenteePage() {
       mentee.email.toLowerCase().includes(searchEmail.toLowerCase())
     )
   })
+
+  console.log(dataTable)
 
   // dataTable = dataTable.slice().sort((a: Mentee, b: Mentee) => {
   //   if (isAsc) {
@@ -106,6 +110,24 @@ function MenteePage() {
       </div>
     </>
   )
+
+  async function handleLockUser(user: Mentee) {
+    if (user.isActive) {
+      const actionResult = await dispatch(lockMentee(user.id))
+      if (lockMentee.fulfilled.match(actionResult)) {
+        toast.success('Khóa thành công')
+      } else {
+        toast.error('Khóa thất bại')
+      }
+    } else {
+      const actionResult = await dispatch(unlockMentee(user.id))
+      if (unlockMentee.fulfilled.match(actionResult)) {
+        toast.success('Mở khóa thành công')
+      } else {
+        toast.error('Mở khóa thất bại')
+      }
+    }
+  }
 
   function handleShowTopupModal(mentee: Mentee) {
     setSelectedMentee(mentee)
@@ -201,7 +223,9 @@ function MenteePage() {
                     <span className="text-sm">{user.coin}</span>
                   </TableCell>
                   <TableCell>
-                    <Badge type="success">Đang hoạt động</Badge>
+                    <Badge type={user.isActive ? 'success' : 'danger'}>
+                      {user.isActive ? 'Đang hoạt động' : 'Đã bị khóa'}
+                    </Badge>
                   </TableCell>
                   <TableCell>
                     <div className="flex justify-center items-center space-x-1">
@@ -224,12 +248,31 @@ function MenteePage() {
                           aria-hidden="true"
                         />
                       </Button>
-                      <Button layout="link" size="small" aria-label="Delete">
-                        <LockIcon
-                          className="w-5 h-5 text-red-500"
-                          aria-hidden="true"
-                        />
-                      </Button>
+                      {user.isActive ? (
+                        <Button
+                          layout="link"
+                          size="small"
+                          aria-label="Delete"
+                          onClick={() => handleLockUser(user)}
+                        >
+                          <LockIcon
+                            className="w-5 h-5 text-red-500"
+                            aria-hidden="true"
+                          />
+                        </Button>
+                      ) : (
+                        <Button
+                          layout="link"
+                          size="small"
+                          aria-label="Delete"
+                          onClick={() => handleLockUser(user)}
+                        >
+                          <UnlockIcon
+                            className="w-5 h-5 text-red-500"
+                            aria-hidden="true"
+                          />
+                        </Button>
+                      )}
                     </div>
                   </TableCell>
                 </TableRow>

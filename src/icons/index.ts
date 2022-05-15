@@ -27,7 +27,7 @@ import { ReactComponent as OutlinePersonIcon } from './outlinePerson.svg'
 import { ReactComponent as OutlineCogIcon } from './outlineCog.svg'
 import { ReactComponent as OutlineLogoutIcon } from './outlineLogout.svg'
 import { ReactComponent as LockIcon } from './lock.svg'
-import { ReactComponent as UnLockIcon } from './unlock.svg'
+import { ReactComponent as UnlockIcon } from './unlock.svg'
 import { ReactComponent as ClassIcon } from './class.svg'
 import { ReactComponent as SortIcon } from './sort.svg'
 import { ReactComponent as CategoryIcon } from './category.svg'
@@ -71,7 +71,7 @@ export const Icons: myIcons = {
   OutlineCogIcon,
   OutlineLogoutIcon,
   LockIcon,
-  UnLockIcon,
+  UnlockIcon,
   ClassIcon,
   SortIcon,
   CategoryIcon,

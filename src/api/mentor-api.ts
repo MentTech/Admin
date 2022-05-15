@@ -23,4 +23,10 @@ export const mentorApi = {
   acceptCandidate: (id: string) => {
     return axiosClient.post(`/mentor/${id}/accept`)
   },
+  lockMentor: (mentorId: string) => {
+    return axiosClient.patch(`/users/${mentorId}/lock`)
+  },
+  unlockMentor: (mentorId: string) => {
+    return axiosClient.patch(`/users/${mentorId}/unlock`)
+  },
 }

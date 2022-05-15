@@ -3,7 +3,8 @@ import { RootState } from 'app/store'
 import { Mentee } from 'models'
 import { fetchAllMentees } from './fetchAllMentees'
 import { fetchMenteeById } from './fetchMenteeById'
-
+import { unlockMentee } from './unlockMentee'
+import { lockMentee } from './lockMentee'
 interface MenteeState {
   mentees: Mentee[]
   status: 'idle' | 'pending' | 'error' | 'success'
@@ -29,6 +30,28 @@ export const menteeSlice = createSlice({
     })
 
     builder.addCase(fetchMenteeById.fulfilled, (state, action) => {
+      const index = state.mentees.findIndex(
+        (mentee) => mentee.id === action.payload.id
+      )
+      if (index !== -1) {
+        state.mentees[index] = action.payload
+      } else {
+        state.mentees = [...state.mentees, action.payload]
+      }
+    })
+
+    builder.addCase(lockMentee.fulfilled, (state, action) => {
+      const index = state.mentees.findIndex(
+        (mentee) => mentee.id === action.payload.id
+      )
+      if (index !== -1) {
+        state.mentees[index] = action.payload
+      } else {
+        state.mentees = [...state.mentees, action.payload]
+      }
+    })
+
+    builder.addCase(unlockMentee.fulfilled, (state, action) => {
       const index = state.mentees.findIndex(
         (mentee) => mentee.id === action.payload.id
       )

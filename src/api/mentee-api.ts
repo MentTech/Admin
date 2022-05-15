@@ -13,4 +13,10 @@ export const MenteeApi = {
       amount,
     })
   },
+  lockMentee: (menteeId: string) => {
+    return axiosClient.patch(`users/${menteeId}/lock`)
+  },
+  unlockMentee: (menteeId: string) => {
+    return axiosClient.patch(`users/${menteeId}/unlock`)
+  },
 }
