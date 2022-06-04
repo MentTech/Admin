@@ -9,7 +9,7 @@ const routes = [
   {
     path: '/dashboard', // the url
     icon: 'HomeIcon', // the component being exported from icons/index.js
-    name: 'Dashboard', // name that appear in Sidebar
+    name: 'Tổng quan', // name that appear in Sidebar
   },
   {
     path: '/admins',
@@ -29,17 +29,22 @@ const routes = [
   {
     path: '/skills',
     icon: 'SkillIcon',
-    name: 'Skills',
+    name: 'Kỹ năng',
   },
   {
     path: '/categories',
     icon: 'CategoryIcon',
-    name: 'Categories',
+    name: 'Danh mục',
   },
   {
     path: '/giftcodes',
     icon: 'GiftIcon',
-    name: 'Giftcodes',
+    name: 'Mã quà tặng',
+  },
+  {
+    path: '/orders',
+    icon: 'MoneyIcon',
+    name: 'Giao dịch',
   },
 ]
 

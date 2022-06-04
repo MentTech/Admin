@@ -16,6 +16,7 @@ const CreateGiffCodedPage = lazy(() => import('pages/CreateGiftCodePage'))
 const MentorDetail = lazy(() => import('pages/MentorDetail'))
 const MentorCandidates = lazy(() => import('pages/MentorCandidates'))
 const MenteePage = lazy(() => import('pages/MenteePage'))
+const OrderPage = lazy(() => import('pages/OrderPage'))
 // const UsersPage = lazy(() => import('../pages/UsersPage'));
 // const ClassPage = lazy(() => import('../pages/ClassPage'));
 // const UserDetail = lazy(() => import('../pages/UserDetail'));
@@ -85,6 +86,10 @@ const routes = [
   {
     path: 'mentees',
     component: MenteePage,
+  },
+  {
+    path: 'orders',
+    component: OrderPage,
   },
   // {
   //   path: 'admins/:id', // the url

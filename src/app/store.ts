@@ -8,6 +8,7 @@ import mentorReducer from 'features/mentor/mentorSlice'
 import candidateReducer from 'features/candidate/candidateSlice'
 import giftCodeReducer from 'features/giftcode/giftCodeSlice'
 import menteeReducer from 'features/mentee/menteeSlice'
+import orderReducer from 'features/order/orderSlice'
 import { loadState, setState } from 'utils/localStorage'
 
 const preloadedState = {
@@ -25,6 +26,7 @@ export const store = configureStore({
     candidates: candidateReducer,
     giftCodes: giftCodeReducer,
     mentees: menteeReducer,
+    orders: orderReducer,
   },
   preloadedState,
 })
