@@ -124,11 +124,11 @@ function CategoryPage() {
   return (
     <>
       <div className="flex justify-between">
-        <PageTitle>Danh mục</PageTitle>
+        <PageTitle>Lĩnh vực</PageTitle>
         <div className="my-6">
-          <Link to="/skills/create">
+          <Link to="/categories/create">
             <Button>
-              Tạo danh mục
+              Tạo lĩnh vực
               <span className="ml-2" aria-hidden="true">
                 +
               </span>
@@ -155,7 +155,7 @@ function CategoryPage() {
             <TableHeader>
               <tr>
                 <TableCell>Id</TableCell>
-                <TableCell>Tên danh mục</TableCell>
+                <TableCell>Tên lĩnh vực</TableCell>
                 <TableCell>
                   <div className="flex items-center">
                     <span>Ngày tạo</span>

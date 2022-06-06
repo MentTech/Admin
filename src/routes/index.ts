@@ -17,6 +17,8 @@ const MentorDetail = lazy(() => import('pages/MentorDetail'))
 const MentorCandidates = lazy(() => import('pages/MentorCandidates'))
 const MenteePage = lazy(() => import('pages/MenteePage'))
 const OrderPage = lazy(() => import('pages/OrderPage'))
+const TransactionPage = lazy(() => import('pages/TransactionPage'))
+const CreateCategory = lazy(() => import('pages/CreateCategoryPage'))
 // const UsersPage = lazy(() => import('../pages/UsersPage'));
 // const ClassPage = lazy(() => import('../pages/ClassPage'));
 // const UserDetail = lazy(() => import('../pages/UserDetail'));
@@ -64,6 +66,10 @@ const routes = [
     component: EditCategory,
   },
   {
+    path: 'categories/create',
+    component: CreateCategory,
+  },
+  {
     path: 'giftcodes',
     component: GiftCard,
   },
@@ -90,6 +96,10 @@ const routes = [
   {
     path: 'orders',
     component: OrderPage,
+  },
+  {
+    path: 'transactions',
+    component: TransactionPage,
   },
   // {
   //   path: 'admins/:id', // the url

@@ -11,4 +11,16 @@ export const adminApi = {
   updateAdmin: async (id: number, formData: AdminFormData) => {
     return axiosClient.patch(`/admin/${id}`, formData)
   },
+  getStatistic: async () => {
+    return axiosClient.get('/statistic/admin/common')
+  },
+  getProfit: async () => {
+    return axiosClient.get('/statistic/admin/profit?months=7')
+  },
+  getNumberOfSessions: async () => {
+    return axiosClient.get('/statistic/admin/session-total')
+  },
+  getNumberOfNewUsers: async () => {
+    return axiosClient.get('/statistic/admin/new-user?months=7')
+  },
 }

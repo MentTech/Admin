@@ -2,8 +2,8 @@ import axiosClient from './axiosClient'
 import { GiftCode } from 'models'
 
 export const giftCodeApi = {
-  getGiftCodes: () => {
-    return axiosClient.get('/transaction/balance')
+  getAllGiftCode: () => {
+    return axiosClient.get('/transaction/card')
   },
   createGiftCode: (giftCode: GiftCode) => {
     return axiosClient.post('/transaction/card', giftCode)

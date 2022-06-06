@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import PageTitle from '../components/Typography/PageTitle'
 import { Link } from 'react-router-dom'
 import { Input } from '@windmill/react-ui'
 import Spinner from 'components/Spinner/Spinner'
-import { fetchAdmins } from 'features/admin/fetchAdmins'
-import { selectAdmins } from 'features/admin/adminsSlice'
 import { useAppDispatch, useAppSelector } from 'app/hook'
+import { fetchAllGiftCode } from 'features/giftcode/fetchAllGiftCode'
+import { selectGiftCodes } from 'features/giftcode/giftCodeSlice'
 
 import {
   Table,
@@ -22,6 +22,7 @@ import {
 } from '@windmill/react-ui'
 import DefaultAvatar from 'assets/img/unnamed.png'
 import { Icons } from 'icons'
+import { GiftCode } from 'models'
 
 const { EditIcon, SortIcon } = Icons
 function GiftCardPage() {
@@ -30,13 +31,13 @@ function GiftCardPage() {
   const [searchEmail, setSearchEmail] = useState('')
   const [isAsc, setIsAsc] = useState(true)
   const dispatch = useAppDispatch()
-  const { admins } = useAppSelector(selectAdmins)
+  const { giftCodes } = useAppSelector(selectGiftCodes)
 
   useEffect(() => {
-    dispatch(fetchAdmins())
+    dispatch(fetchAllGiftCode())
   }, [])
 
-  let dataTable = admins
+  let dataTable = giftCodes
   // dataTable = dataTable.filter((admin: Admin) => {
   //   return (
   //     admin.name.toLowerCase().includes(searchName.toLowerCase()) &&
@@ -54,7 +55,7 @@ function GiftCardPage() {
 
   // pagination setup
   const resultsPerPage = 10
-  const totalResults = admins.length
+  const totalResults = giftCodes.length
 
   dataTable = dataTable.slice(
     (pageTable - 1) * resultsPerPage,
@@ -103,59 +104,57 @@ function GiftCardPage() {
         />
       </div>
       {/* <SectionTitle>Table with actions</SectionTitle> */}
-      {admins.length === 0 ? (
+      {giftCodes.length === 0 ? (
         <Spinner />
       ) : (
         <TableContainer className="mb-8">
           <Table>
             <TableHeader>
               <tr>
-                <TableCell>Họ và tên</TableCell>
-                <TableCell>Email</TableCell>
-                <TableCell>Số điện thoại</TableCell>
-                <TableCell>
-                  <div className="flex items-center">
-                    <span>Ngày tạo</span>
-                    <button onClick={onSortChange}>
-                      <SortIcon className="ml-1" />
-                    </button>
-                  </div>
-                </TableCell>
+                <TableCell>Mã quà tặng</TableCell>
+                {/* <TableCell>Loại</TableCell> */}
+                <TableCell>Hiệu lực từ</TableCell>
+                <TableCell>Hiệu lực đến</TableCell>
+                <TableCell>Trạng thái</TableCell>
+                <TableCell>Lượt sử dụng còn lại</TableCell>
+                <TableCell>Token</TableCell>
                 <TableCell>Thao tác</TableCell>
               </tr>
             </TableHeader>
             <TableBody>
-              {dataTable?.map((user: any, i: number) => (
+              {dataTable?.map((giftcode: GiftCode, i: number) => (
                 <TableRow key={i}>
                   <TableCell>
-                    <div className="flex items-center text-sm">
-                      <Avatar
-                        className="hidden mr-3 md:block"
-                        src={DefaultAvatar}
-                        alt="User avatar"
-                      />
-                      <div>
-                        <p className="font-semibold">{user.name}</p>
-                        <p className="text-xs text-gray-600 dark:text-gray-400">
-                          Super admin
-                        </p>
-                      </div>
-                    </div>
+                    <span className="text-sm">{giftcode.code}</span>
                   </TableCell>
-                  <TableCell>
-                    <span className="text-sm">{user.email}</span>
-                  </TableCell>
-                  <TableCell>
-                    <Badge type={user.status}>{user.phone}</Badge>
-                  </TableCell>
+                  {/* <TableCell>
+                    <span className="text-sm">{giftcode.type}</span>
+                  </TableCell> */}
                   <TableCell>
                     <span className="text-sm">
-                      {new Date(user.createAt).toLocaleDateString()}
+                      {new Date(giftcode.validFrom).toLocaleDateString('vi')}
                     </span>
                   </TableCell>
                   <TableCell>
+                    <span className="text-sm">
+                      {new Date(giftcode.validFrom).toLocaleDateString('vi')}
+                    </span>
+                  </TableCell>
+                  <TableCell>
+                    <span className="text-sm">{giftcode.valid}</span>
+                    <Badge type={giftcode.valid ? 'success' : 'danger'}>
+                      {giftcode.valid ? 'Còn hạn' : 'Hết hạn'}
+                    </Badge>
+                  </TableCell>
+                  <TableCell>
+                    <span className="text-sm">{giftcode.usageLeft}</span>
+                  </TableCell>
+                  <TableCell>
+                    <span className="text-sm">{giftcode.coin}</span>
+                  </TableCell>
+                  <TableCell>
                     <div className="flex justify-center items-center space-x-4">
-                      <Link to={`/admins/${user.id}`}>
+                      <Link to={`/giftcodes/${giftcode.id}`}>
                         <Button layout="link" size="small" aria-label="Edit">
                           <EditIcon className="w-5 h-5" aria-hidden="true" />
                         </Button>

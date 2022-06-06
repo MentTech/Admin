@@ -42,7 +42,7 @@ function Login(props: any) {
   async function onSubmit(data: any) {
     const resultAction = await dispatch(postSignIn(data))
     if (postSignIn.fulfilled.match(resultAction)) {
-      toast.success('Login success')
+      toast.success('Đăng nhập thành công')
       navigate('/dashboard')
     } else {
       if (resultAction.payload) {

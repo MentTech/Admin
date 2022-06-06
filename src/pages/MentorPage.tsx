@@ -27,7 +27,7 @@ import { toast } from 'react-toastify'
 import { lockMentor } from 'features/mentor/lockMentor'
 import { unlockMentor } from 'features/mentor/unlockMentor'
 
-const { EditIcon, SortIcon, LockIcon, UnlockIcon } = Icons
+const { EditIcon, LockIcon, UnlockIcon } = Icons
 function MentorPage() {
   const [pageTable, setPageTable] = useState(1)
   const [searchName, setSearchName] = useState('')
@@ -71,9 +71,9 @@ function MentorPage() {
     setPageTable(p)
   }
 
-  function onSortChange() {
-    setIsAsc(!isAsc)
-  }
+  // function onSortChange() {
+  //   setIsAsc(!isAsc)
+  // }
 
   async function handleLockUser(user: Mentor) {
     if (user.isActive) {
@@ -142,7 +142,7 @@ function MentorPage() {
                     <div className="flex items-center text-sm">
                       <Avatar
                         className="hidden mr-3 md:block"
-                        src={user.avatar ? user.avatar : DefaultAvatar}
+                        src={user.avatar || DefaultAvatar}
                         alt="User avatar"
                       />
                       <div>

@@ -34,7 +34,7 @@ const routes = [
   {
     path: '/categories',
     icon: 'CategoryIcon',
-    name: 'Danh mục',
+    name: 'Lĩnh vực',
   },
   {
     path: '/giftcodes',
@@ -43,6 +43,11 @@ const routes = [
   },
   {
     path: '/orders',
+    icon: 'MoneyIcon',
+    name: 'Yêu cầu giao dịch',
+  },
+  {
+    path: '/transactions',
     icon: 'MoneyIcon',
     name: 'Giao dịch',
   },

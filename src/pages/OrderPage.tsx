@@ -1,4 +1,4 @@
-import { Input } from '@windmill/react-ui'
+import { Input, Badge } from '@windmill/react-ui'
 import { useAppDispatch, useAppSelector } from 'app/hook'
 import { selectOrders } from 'features/order/orderSlice'
 import Spinner from 'components/Spinner/Spinner'
@@ -118,10 +118,23 @@ function OrderPage() {
   //   </>
   // )
 
+  function orderStatus(status: string) {
+    switch (status) {
+      case 'PENDING':
+        return 'neutral'
+      case 'HOLD':
+        return 'warning'
+      case 'SUCCESS':
+        return 'success'
+      case 'FAILED':
+        return 'danger'
+    }
+  }
+
   return (
     <>
       <div className="flex justify-between">
-        <PageTitle>Giao dịch</PageTitle>
+        <PageTitle>Yêu cầu giao dịch</PageTitle>
       </div>
       <div className="flex mb-4">
         <Input
@@ -141,12 +154,13 @@ function OrderPage() {
           <Table>
             <TableHeader>
               <tr>
-                <TableCell>Mã giao dịch</TableCell>
+                <TableCell>Mã yêu cầu giao dịch</TableCell>
                 <TableCell>Tên</TableCell>
                 <TableCell>Email</TableCell>
                 <TableCell>Loại</TableCell>
                 <TableCell>Phương thức</TableCell>
                 <TableCell>Trạng thái</TableCell>
+                <TableCell>Token</TableCell>
                 <TableCell>Số tiền</TableCell>
                 <TableCell>
                   <div className="flex items-center">
@@ -182,10 +196,20 @@ function OrderPage() {
                     <span className="text-sm">{order.paymentMethod}</span>
                   </TableCell>
                   <TableCell>
-                    <span className="text-sm">{order.status}</span>
+                    <Badge type={orderStatus(order.status)}>
+                      {order.status}
+                    </Badge>
                   </TableCell>
                   <TableCell>
-                    <span className="text-sm">{order.total}</span>
+                    <span className="text-sm">{order.token}</span>
+                  </TableCell>
+                  <TableCell>
+                    <span className="text-sm">
+                      {order.total.toLocaleString('it-IT', {
+                        style: 'currency',
+                        currency: 'VND',
+                      })}
+                    </span>
                   </TableCell>
                   <TableCell>
                     <span className="text-sm">

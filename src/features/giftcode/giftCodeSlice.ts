@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import { RootState } from 'app/store'
 import { GiftCode } from 'models'
 import { createGiftCode } from './createGiftCode'
+import { fetchAllGiftCode } from './fetchAllGiftCode'
 
 export interface GiftCodeState {
   giftCodes: GiftCode[]
@@ -23,6 +24,11 @@ const giftCodeSlice = createSlice({
     })
     builder.addCase(createGiftCode.fulfilled, (state, action) => {
       state.giftCodes.push(action.payload)
+      state.status = 'success'
+    })
+
+    builder.addCase(fetchAllGiftCode.fulfilled, (state, action) => {
+      state.giftCodes = action.payload
       state.status = 'success'
     })
   },

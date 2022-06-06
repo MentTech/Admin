@@ -99,23 +99,6 @@ function AdminDetail(props: any) {
               </Label>
 
               <Label className="mt-4">
-                <span>Ngày sinh</span>
-                <Input
-                  disabled
-                  className="mt-1"
-                  css=""
-                  type="number"
-                  defaultValue={new Date(
-                    matchedAdmin?.birthday as Date
-                  ).toLocaleDateString()}
-                  valid={errors.phoneNumber === undefined}
-                />
-                <HelperText valid={false}>
-                  {errors.phoneNumber?.message}
-                </HelperText>
-              </Label>
-
-              <Label className="mt-4">
                 <span>Số điện thoại</span>
                 <Input
                   {...register('phoneNumber')}
