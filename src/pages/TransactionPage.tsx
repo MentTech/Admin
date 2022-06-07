@@ -36,8 +36,8 @@ function TransactionPage() {
 
   let dataTable = transactions
   dataTable = dataTable.filter((transaction: Transaction) => {
-    return transaction.user.name
-      .toLowerCase()
+    return transaction?.relatedId
+      ?.toLowerCase()
       .includes(searchName.toLowerCase())
   })
 
@@ -83,9 +83,9 @@ function TransactionPage() {
       </div>
       <div className="flex mb-4">
         <Input
-          className="mr-4"
+          className=""
           aria-label="Bad"
-          placeholder="Tên người dùng"
+          placeholder="Mã giao dịch"
           css=""
           value={searchName}
           onChange={(e) => setSearchName(e.target.value)}
@@ -142,12 +142,13 @@ function TransactionPage() {
                     <span className="text-sm">{transaction.message}</span>
                   </TableCell>
                   <TableCell>
-                    <span className="text-sm">
+                    {/* <span className="text-sm">
                       {transaction.amount.toLocaleString('it-IT', {
                         style: 'currency',
                         currency: 'VND',
                       })}
-                    </span>
+                    </span> */}
+                    <span className="text-sm">{transaction.amount}</span>
                   </TableCell>
                   <TableCell>
                     <Badge type={getTransactionStatus(transaction)}>

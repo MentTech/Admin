@@ -72,7 +72,7 @@ function Login(props: any) {
           <main className="flex items-center justify-center p-6 sm:p-12 md:w-1/2">
             <div className="w-full">
               <h1 className="mb-4 text-xl font-semibold text-gray-700 dark:text-gray-200">
-                Login
+                Đăng nhập
               </h1>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <Label>
@@ -94,7 +94,7 @@ function Login(props: any) {
                 <HelperText valid={false}>{errors.email?.message}</HelperText>
 
                 <Label className="mt-4">
-                  <span>Password</span>
+                  <span>Mật khẩu</span>
                   <Controller
                     name="password"
                     control={control}
@@ -113,7 +113,7 @@ function Login(props: any) {
                   {errors.password?.message}
                 </HelperText>
                 <Button type="submit" className="mt-4" block>
-                  Login
+                  Đăng nhập
                 </Button>
               </form>
 

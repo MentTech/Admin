@@ -6,6 +6,7 @@ import SidebarSubmenu from './SidebarSubmenu'
 import { Button } from '@windmill/react-ui'
 import { IconProps } from 'react-toastify'
 import { TypeOf } from 'yup'
+import Logo from 'assets/img/logo.png'
 
 function Icon({ icon, ...props }: { icon: string; [key: string]: any }) {
   const Icon = Icons[icon]
@@ -14,12 +15,9 @@ function Icon({ icon, ...props }: { icon: string; [key: string]: any }) {
 
 function SidebarContent() {
   return (
-    <div className="py-4 text-gray-500 dark:text-gray-400">
-      <Link
-        className="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200"
-        to="#"
-      >
-        Admin App
+    <div className="py-4 text-gray-500 dark:text-gray-400 text-center">
+      <Link to="/dashboard">
+        <img src={Logo} alt="logo" className="ml-8 h-12" />
       </Link>
 
       <ul className="mt-6">

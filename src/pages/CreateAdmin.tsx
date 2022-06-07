@@ -122,7 +122,7 @@ function CreateAdmin() {
 
           <div className="flex justify-center">
             <Button className="mt-6" type="submit">
-              Create Admin
+              Tạo quản trị viên
             </Button>
           </div>
         </form>

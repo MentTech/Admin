@@ -23,4 +23,7 @@ export const adminApi = {
   getNumberOfNewUsers: async () => {
     return axiosClient.get('/statistic/admin/new-user?months=7')
   },
+  getNumberOfDoneSessions: async () => {
+    return axiosClient.get('/statistic/admin/session-done?months=7')
+  },
 }

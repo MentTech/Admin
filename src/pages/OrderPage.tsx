@@ -138,7 +138,7 @@ function OrderPage() {
       </div>
       <div className="flex mb-4">
         <Input
-          className="mr-4"
+          className=""
           aria-label="Bad"
           placeholder="Email"
           css=""

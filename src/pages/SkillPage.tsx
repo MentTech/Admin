@@ -133,9 +133,9 @@ function SkillPage() {
       </div>
       <div className="flex mb-4">
         <Input
-          className="mr-4"
+          className=""
           aria-label="Bad"
-          placeholder="Description"
+          placeholder="Tên kỹ năng"
           css=""
           value={searchName}
           onChange={(e) => setSearchName(e.target.value)}
@@ -150,16 +150,16 @@ function SkillPage() {
             <TableHeader>
               <tr>
                 <TableCell>Id</TableCell>
-                <TableCell>Description</TableCell>
+                <TableCell>Tên kỹ năng</TableCell>
                 <TableCell>
                   <div className="flex items-center">
-                    <span>Date Created</span>
+                    <span>Ngày tạo</span>
                     <button onClick={onSortChange}>
                       <SortIcon className="ml-1" />
                     </button>
                   </div>
                 </TableCell>
-                <TableCell className="text-center">Actions</TableCell>
+                <TableCell className="text-center">Hành Động</TableCell>
               </tr>
             </TableHeader>
             <TableBody>

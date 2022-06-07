@@ -1,17 +1,17 @@
-import React, { useContext, useState } from 'react'
+import { useContext, useState } from 'react'
 //import { SidebarContext } from '../context/SidebarContext';
-import { Link, Navigate } from 'react-router-dom'
-import { Icons } from '../../icons'
-import { useAppDispatch, useAppSelector } from 'app/hook'
-import { signOut, selectAuth } from 'features/auth/authSlice'
 import {
   Avatar,
   Badge,
-  Input,
   Dropdown,
   DropdownItem,
+  Input,
   WindmillContext,
 } from '@windmill/react-ui'
+import { useAppDispatch, useAppSelector } from 'app/hook'
+import { selectAuth, signOut } from 'features/auth/authSlice'
+import { Link, Navigate } from 'react-router-dom'
+import { Icons } from '../../icons'
 
 const {
   SearchIcon,
@@ -20,7 +20,6 @@ const {
   BellIcon,
   MenuIcon,
   OutlinePersonIcon,
-  OutlineCogIcon,
   OutlineLogoutIcon,
 } = Icons
 
@@ -67,7 +66,7 @@ function Header(props: any) {
             </div>
             <Input
               className="pl-8 text-gray-700"
-              placeholder="Search for projects"
+              placeholder="Tìm kiếm"
               aria-label="Search"
               css=""
             />

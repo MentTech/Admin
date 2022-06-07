@@ -86,7 +86,7 @@ function GiftCardPage() {
           </Link>
         </div>
       </div>
-      <div className="flex mb-4">
+      {/* <div className="flex mb-4">
         <Input
           className="mr-4"
           aria-label="Bad"
@@ -102,7 +102,7 @@ function GiftCardPage() {
           value={searchEmail}
           onChange={(e) => setSearchEmail(e.target.value)}
         />
-      </div>
+      </div> */}
       {/* <SectionTitle>Table with actions</SectionTitle> */}
       {giftCodes.length === 0 ? (
         <Spinner />
@@ -115,7 +115,6 @@ function GiftCardPage() {
                 {/* <TableCell>Loại</TableCell> */}
                 <TableCell>Hiệu lực từ</TableCell>
                 <TableCell>Hiệu lực đến</TableCell>
-                <TableCell>Trạng thái</TableCell>
                 <TableCell>Lượt sử dụng còn lại</TableCell>
                 <TableCell>Token</TableCell>
                 <TableCell>Thao tác</TableCell>
@@ -140,12 +139,7 @@ function GiftCardPage() {
                       {new Date(giftcode.validFrom).toLocaleDateString('vi')}
                     </span>
                   </TableCell>
-                  <TableCell>
-                    <span className="text-sm">{giftcode.valid}</span>
-                    <Badge type={giftcode.valid ? 'success' : 'danger'}>
-                      {giftcode.valid ? 'Còn hạn' : 'Hết hạn'}
-                    </Badge>
-                  </TableCell>
+
                   <TableCell>
                     <span className="text-sm">{giftcode.usageLeft}</span>
                   </TableCell>

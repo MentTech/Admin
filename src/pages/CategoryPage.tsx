@@ -87,9 +87,9 @@ function CategoryPage() {
       deleteCategory(Number(selectedCategory?.id))
     )
     if (deleteCategory.fulfilled.match(actionResult)) {
-      toast.success('Xóa kỹ năng thành công')
+      toast.success('Xóa lĩnh vực thành công')
     } else {
-      toast.error('Xóa kỹ năng thất bại')
+      toast.error('Lĩnh vực không thể xóa.')
     }
   }
 
@@ -138,9 +138,9 @@ function CategoryPage() {
       </div>
       <div className="flex mb-4">
         <Input
-          className="mr-4"
+          className="mr-0"
           aria-label="Bad"
-          placeholder="Description"
+          placeholder="Tên lĩnh vực"
           css=""
           value={searchName}
           onChange={(e) => setSearchName(e.target.value)}
@@ -228,7 +228,7 @@ function CategoryPage() {
         header="Chú ý"
         actions={deleteModalActions}
       >
-        {`Bạn muốn xóa danh mục ${selectedCategory?.name} ?`}
+        {`Bạn muốn xóa lĩnh vực ${selectedCategory?.name} ?`}
       </Modals>
     </>
   )

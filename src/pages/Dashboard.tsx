@@ -19,11 +19,11 @@ import { selectStatistic } from 'features/statistic/statisticSlice'
 import { useEffect } from 'react'
 import { Bar, Line, Pie } from 'react-chartjs-2'
 import PageTitle from '../components/Typography/PageTitle'
-
 import { Icons } from 'icons'
 import Spinner from 'components/Spinner/Spinner'
 import { fetchProfit } from 'features/statistic/fetchProfit'
 import { fetchNumberOfSessions } from 'features/statistic/fetchNumberOfSessions'
+import { fetchNumberOfDoneSessions } from 'features/statistic/fetchNumberOfDoneSessions'
 import { fetchNewUsers } from 'features/statistic/fetchNewUsers'
 const { PeopleIcon, MoneyIcon, CartIcon } = Icons
 
@@ -41,7 +41,7 @@ ChartJS.register(
 
 function Dashboard() {
   const dispatch = useAppDispatch()
-  const { statistic, profit, sessions, newUsers } =
+  const { statistic, profit, sessions, newUsers, doneSessions } =
     useAppSelector(selectStatistic)
 
   useEffect(() => {
@@ -49,6 +49,7 @@ function Dashboard() {
     dispatch(fetchProfit())
     dispatch(fetchNumberOfSessions())
     dispatch(fetchNewUsers())
+    dispatch(fetchNumberOfDoneSessions())
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -98,10 +99,26 @@ function Dashboard() {
         .reverse()
     : []
 
+  let doneSessionsMonth = doneSessions
+    ? doneSessions
+        .map((item: any) => {
+          return item.month
+        })
+        .reverse()
+    : []
+
+  let doneSessionsData = doneSessions
+    ? doneSessions
+        .map((item: any) => {
+          return item.doneSession
+        })
+        .reverse()
+    : []
+
   return (
     <>
       <PageTitle>Tổng quan</PageTitle>
-      <div className="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
         <InfoCard title="Số lượng mentee" value={statistic.mentee}>
           <RoundIcon
             icon={PeopleIcon}
@@ -145,42 +162,68 @@ function Dashboard() {
         </InfoCard>
       </div>
       <PageTitle>Thống kê</PageTitle>
-      <Card>
-        <CardBody>
-          <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">
-            Doanh thu và lượt đặt lịch trong tháng
-          </p>
-          <Bar
-            options={{
-              responsive: true,
-              plugins: {
-                legend: {
-                  position: 'top' as const,
+      <div className="grid gap-6 mb-8 md:grid-cols-2">
+        <Card>
+          <CardBody>
+            <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">
+              Doanh thu trong các tháng
+            </p>
+            <Bar
+              options={{
+                responsive: true,
+                plugins: {
+                  legend: {
+                    position: 'top' as const,
+                  },
+                  title: {
+                    display: false,
+                  },
                 },
-                title: {
-                  display: false,
+              }}
+              data={{
+                labels: profitMonth,
+                datasets: [
+                  {
+                    label: 'Doanh thu',
+                    data: profitData,
+                    backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                  },
+                ],
+              }}
+            />
+          </CardBody>
+        </Card>
+        <Card>
+          <CardBody>
+            <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">
+              Số session hoàn thành trong các tháng
+            </p>
+            <Bar
+              options={{
+                responsive: true,
+                plugins: {
+                  legend: {
+                    position: 'top' as const,
+                  },
+                  title: {
+                    display: false,
+                  },
                 },
-              },
-            }}
-            data={{
-              labels: profitMonth,
-              datasets: [
-                {
-                  label: 'Doanh thu',
-                  data: profitData,
-                  backgroundColor: 'rgba(255, 99, 132, 0.5)',
-                },
-                {
-                  label: 'Lượt đặt lịch',
-                  data: [],
-                  backgroundColor: 'rgba(53, 162, 235, 0.5)',
-                },
-              ],
-            }}
-          />
-        </CardBody>
-      </Card>
-      <div className="grid gap-6 my-8 md:grid-cols-2">
+              }}
+              data={{
+                labels: doneSessionsMonth,
+                datasets: [
+                  {
+                    label: 'Lượt đặt lịch',
+                    data: doneSessionsData,
+                    backgroundColor: 'rgb(53, 162, 235, 0.6)',
+                  },
+                ],
+              }}
+            />
+          </CardBody>
+        </Card>
+
         <Card>
           <CardBody>
             <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">

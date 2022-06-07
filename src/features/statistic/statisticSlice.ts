@@ -3,12 +3,14 @@ import { fetchStatistic } from 'features/statistic/fetchStatistic'
 import { fetchProfit } from './fetchProfit'
 import { fetchNumberOfSessions } from './fetchNumberOfSessions'
 import { fetchNewUsers } from './fetchNewUsers'
+import { fetchNumberOfDoneSessions } from './fetchNumberOfDoneSessions'
 
 interface StatisticState {
   statistic: any
   profit: any
   sessions: any
   newUsers: any
+  doneSessions: any
 }
 
 const initialState = {
@@ -37,6 +39,10 @@ export const statisticSlice = createSlice({
 
     builder.addCase(fetchNewUsers.fulfilled, (state, action) => {
       state.newUsers = action.payload
+    })
+
+    builder.addCase(fetchNumberOfDoneSessions.fulfilled, (state, action) => {
+      state.doneSessions = action.payload
     })
   },
 })
