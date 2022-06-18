@@ -1,19 +1,20 @@
-import React, { useEffect } from 'react'
-import PageTitle from '../components/Typography/PageTitle'
-import { Link } from 'react-router-dom'
-import { Input, HelperText, Label, Button } from '@windmill/react-ui'
-import DefaultAvatar from '../assets/img/unnamed.png'
-import { selectMentors } from 'features/mentor/mentorSlice'
+import { Button, Input, Label, Textarea } from '@windmill/react-ui'
 import { useAppDispatch, useAppSelector } from 'app/hook'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { useForm } from 'react-hook-form'
-import { useParams } from 'react-router-dom'
-import * as yup from 'yup'
-import { Mentor } from 'models'
-import { fetchMentorById } from 'features/mentor/fetchMentorById'
 import ThemedSuspense from 'components/ThemedSuspense'
+import { fetchMentorById } from 'features/mentor/fetchMentorById'
+import { selectMentors } from 'features/mentor/mentorSlice'
+import { Mentor, Skill } from 'models'
+import { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { Link, useParams } from 'react-router-dom'
+import DefaultAvatar from '../assets/img/unnamed.png'
+import PageTitle from '../components/Typography/PageTitle'
+import Modals from 'components/Modals/Modals'
+import { acceptCandidate } from 'features/candidate/acceptCandidate'
+import { toast } from 'react-toastify'
 
 function MentorDetail(props: any) {
+  const [showAcceptMentorModal, setShowAcceptMentorModal] = useState(false)
   const {
     register,
     handleSubmit,
@@ -41,6 +42,55 @@ function MentorDetail(props: any) {
     return <ThemedSuspense />
   }
 
+  async function handleAcceptCandidate() {
+    setShowAcceptMentorModal(false)
+    const actionResult = await dispatch(
+      acceptCandidate(matchedMentor?.id as string)
+    )
+    if (acceptCandidate.fulfilled.match(actionResult)) {
+      toast.success('Duyệt thành công')
+      dispatch(fetchMentorById(id as string))
+    } else {
+      toast.error('Duyệt thất bại')
+    }
+  }
+
+  function handleOpenAcceptMentorModal() {
+    setShowAcceptMentorModal(true)
+  }
+
+  function handleCloseAcceptMentorModal() {
+    setShowAcceptMentorModal(false)
+  }
+
+  const acceptMentorActions = (
+    <>
+      <div className="hidden sm:block">
+        <Button layout="outline" onClick={handleCloseAcceptMentorModal}>
+          Hủy
+        </Button>
+      </div>
+      <div className="hidden sm:block">
+        <Button onClick={handleAcceptCandidate}>Đồng ý</Button>
+      </div>
+      <div className="block w-full sm:hidden">
+        <Button
+          block
+          size="large"
+          layout="outline"
+          onClick={handleCloseAcceptMentorModal}
+        >
+          Hủy
+        </Button>
+      </div>
+      <div className="block w-full sm:hidden">
+        <Button block size="large" onClick={handleAcceptCandidate}>
+          Đồng ý
+        </Button>
+      </div>
+    </>
+  )
+
   return (
     <>
       <div className="flex justify-between items-center">
@@ -64,7 +114,7 @@ function MentorDetail(props: any) {
           <div className="mt-8 mr-4 flex-1 w-full">
             <form onSubmit={handleSubmit(onSubmit)}>
               <Label>
-                <span>Họ và tên</span>
+                <span className="font-bold text-lg">Họ và tên</span>
                 <Input
                   className="mt-1"
                   placeholder="Fullname"
@@ -76,7 +126,7 @@ function MentorDetail(props: any) {
               </Label>
 
               <Label className="mt-4">
-                <span>Email</span>
+                <span className="font-bold text-lg">Email</span>
                 <Input
                   disabled
                   value={matchedMentor?.email}
@@ -89,7 +139,7 @@ function MentorDetail(props: any) {
               </Label>
 
               <Label className="mt-4">
-                <span>Ngày sinh</span>
+                <span className="font-bold text-lg">Ngày sinh</span>
                 <Input
                   disabled
                   className="mt-1"
@@ -102,7 +152,7 @@ function MentorDetail(props: any) {
               </Label>
 
               <Label className="mt-4">
-                <span>Số điện thoại</span>
+                <span className="font-bold text-lg">Số điện thoại</span>
                 <Input
                   disabled
                   className="mt-1"
@@ -115,6 +165,143 @@ function MentorDetail(props: any) {
               </Label>
 
               <Label className="mt-4">
+                <span className="font-bold text-lg">LinkedIn</span>
+                <Input
+                  disabled
+                  className="mt-1"
+                  css=""
+                  placeholder="Linkedin"
+                  type="number"
+                  value={matchedMentor?.User_mentor.linkedin}
+                  valid
+                />
+              </Label>
+              <Label className="mt-4">
+                <span className="font-bold text-lg">Giới thiệu</span>
+                <Textarea
+                  disabled
+                  className="mt-1 h-28"
+                  css=""
+                  placeholder="Giới thiệu"
+                  value={matchedMentor?.User_mentor.introduction}
+                  valid
+                />
+              </Label>
+
+              <Label className="mt-4">
+                <span className="font-bold text-lg">Lĩnh vực</span>
+                <Input
+                  disabled
+                  className="mt-1"
+                  css=""
+                  placeholder="Lĩnh vực"
+                  type="text"
+                  value={matchedMentor?.User_mentor.category.name}
+                  valid
+                />
+              </Label>
+
+              <Label className="mt-4">
+                <span className="font-bold text-lg">Kỹ năng</span>
+                <Input
+                  disabled
+                  className="mt-1"
+                  css=""
+                  placeholder="Kỹ năng"
+                  type="text"
+                  value={matchedMentor?.User_mentor.skills
+                    ?.map((item: Skill) => item.description)
+                    .join(', ')}
+                  valid
+                />
+              </Label>
+
+              <Label className="mt-4">
+                <span className="font-bold text-lg">Kinh nghiệm</span>
+                <ul className="ml-6">
+                  {matchedMentor?.User_mentor.experiences?.map(
+                    (item: any, index: number) => (
+                      <li className="mt-6">
+                        <div className="flex w-full gap-4">
+                          <h4 className="font-bold">{index + 1}. </h4>
+                          <div className="w-full">
+                            <span className="font-bold">Chức danh</span>
+                            <Input
+                              disabled
+                              className="mt-1"
+                              css=""
+                              placeholder="Chức danh"
+                              type="text"
+                              value={item.title}
+                              valid
+                            />
+                            <span className="font-bold">Công ty</span>
+                            <Input
+                              disabled
+                              className="mt-1"
+                              css=""
+                              placeholder="Công ty"
+                              type="text"
+                              value={item.company}
+                              valid
+                            />
+                            <div className="font-bold">Chi tiết</div>
+                            <Textarea
+                              disabled
+                              className="mt-1 h-28"
+                              css=""
+                              placeholder=""
+                              value={item.description}
+                              valid
+                            />
+                          </div>
+                        </div>
+                      </li>
+                    )
+                  )}
+                </ul>
+              </Label>
+
+              <Label className="mt-4">
+                <span className="font-bold text-lg">
+                  Thành tích và chứng chỉ
+                </span>
+                <ul className="ml-6">
+                  {matchedMentor?.User_mentor.achievements?.map(
+                    (item: any, index: number) => (
+                      <li className="mt-6">
+                        <div className="flex w-full gap-4">
+                          <h4 className="font-bold">{index + 1}. </h4>
+                          <div className="w-full">
+                            <div>Thành tích</div>
+                            <Input
+                              disabled
+                              className="mt-1"
+                              css=""
+                              placeholder="Kỹ năng"
+                              type="text"
+                              value={item.title}
+                              valid
+                            />
+                            <div>Chi tiết</div>
+                            <Input
+                              disabled
+                              className="mt-1"
+                              css=""
+                              placeholder="Kỹ năng"
+                              type="text"
+                              value={item.description}
+                              valid
+                            />
+                          </div>
+                        </div>
+                      </li>
+                    )
+                  )}
+                </ul>
+              </Label>
+
+              <Label className="mt-4">
                 <span>
                   Ngày tạo:{' '}
                   {new Date(
@@ -123,17 +310,25 @@ function MentorDetail(props: any) {
                 </span>
               </Label>
 
-              {/* {isMyProfile && (
-                <div className="flex justify-center">
-                  <Button className="my-6" type="submit">
-                    Update
-                  </Button>
+              {matchedMentor?.User_mentor.isAccepted === false && (
+                <div className="mt-4">
+                  <Button onClick={handleOpenAcceptMentorModal}>Duyệt</Button>
                 </div>
-              )} */}
+              )}
             </form>
           </div>
         </div>
       </div>
+      <Modals
+        isOpenModal={showAcceptMentorModal}
+        actions={acceptMentorActions}
+        header="Duyệt mentor"
+        setClose={() => setShowAcceptMentorModal(false)}
+      >
+        <div>
+          <p>{`Bạn chắc chắn muốn duyệt ứng viên ${matchedMentor?.name} thành mentor?`}</p>
+        </div>
+      </Modals>
     </>
   )
 }

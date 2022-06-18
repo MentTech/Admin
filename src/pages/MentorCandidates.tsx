@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import PageTitle from '../components/Typography/PageTitle'
 import { Link } from 'react-router-dom'
 import { Input } from '@windmill/react-ui'
