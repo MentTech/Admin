@@ -31,7 +31,7 @@ function GiftCardPage() {
   const [searchEmail, setSearchEmail] = useState('')
   const [isAsc, setIsAsc] = useState(true)
   const dispatch = useAppDispatch()
-  const { giftCodes } = useAppSelector(selectGiftCodes)
+  const { giftCodes, status } = useAppSelector(selectGiftCodes)
 
   useEffect(() => {
     dispatch(fetchAllGiftCode())
@@ -104,9 +104,9 @@ function GiftCardPage() {
         />
       </div> */}
       {/* <SectionTitle>Table with actions</SectionTitle> */}
-      {giftCodes.length === 0 ? (
+      {status === 'pending' ? (
         <Spinner />
-      ) : (
+      ) : giftCodes.length > 0 ? (
         <TableContainer className="mb-8">
           <Table>
             <TableHeader>
@@ -168,6 +168,12 @@ function GiftCardPage() {
             />
           </TableFooter>
         </TableContainer>
+      ) : (
+        <div className="flex justify-center items-center">
+          <div className="text-center">
+            <h3>Không có dữ liệu</h3>
+          </div>
+        </div>
       )}
     </>
   )

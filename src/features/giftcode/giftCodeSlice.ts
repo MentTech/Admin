@@ -27,6 +27,10 @@ const giftCodeSlice = createSlice({
       state.status = 'success'
     })
 
+    builder.addCase(fetchAllGiftCode.pending, (state) => {
+      state.status = 'pending'
+    })
+
     builder.addCase(fetchAllGiftCode.fulfilled, (state, action) => {
       state.giftCodes = action.payload
       state.status = 'success'

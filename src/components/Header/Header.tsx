@@ -12,6 +12,7 @@ import { useAppDispatch, useAppSelector } from 'app/hook'
 import { selectAuth, signOut } from 'features/auth/authSlice'
 import { Link, Navigate } from 'react-router-dom'
 import { Icons } from '../../icons'
+import DefaultAvatar from 'assets/img/unnamed.png'
 
 const {
   SearchIcon,
@@ -61,7 +62,7 @@ function Header(props: any) {
         {/* <!-- Search input --> */}
         <div className="flex justify-center flex-1 lg:mr-32">
           <div className="relative w-full max-w-xl mr-6 focus-within:text-purple-500">
-            <div className="absolute inset-y-0 flex items-center pl-2">
+            {/* <div className="absolute inset-y-0 flex items-center pl-2">
               <SearchIcon className="w-4 h-4" aria-hidden="true" />
             </div>
             <Input
@@ -69,7 +70,7 @@ function Header(props: any) {
               placeholder="Tìm kiếm"
               aria-label="Search"
               css=""
-            />
+            /> */}
           </div>
         </div>
         <ul className="flex items-center flex-shrink-0 space-x-6">
@@ -88,39 +89,7 @@ function Header(props: any) {
             </button>
           </li>
           {/* <!-- Notifications menu --> */}
-          <li className="relative">
-            <button
-              className="relative align-middle rounded-md focus:outline-none focus:shadow-outline-purple"
-              onClick={handleNotificationsClick}
-              aria-label="Notifications"
-              aria-haspopup="true"
-            >
-              <BellIcon className="w-5 h-5" aria-hidden="true" />
-              {/* <!-- Notification badge --> */}
-              <span
-                aria-hidden="true"
-                className="absolute top-0 right-0 inline-block w-3 h-3 transform translate-x-1 -translate-y-1 bg-red-600 border-2 border-white rounded-full dark:border-gray-800"
-              ></span>
-            </button>
 
-            <Dropdown
-              align="right"
-              isOpen={isNotificationsMenuOpen}
-              onClose={() => setIsNotificationsMenuOpen(false)}
-            >
-              <DropdownItem className="justify-between">
-                <span>Messages</span>
-                <Badge type="danger">13</Badge>
-              </DropdownItem>
-              <DropdownItem className="justify-between">
-                <span>Sales</span>
-                <Badge type="danger">2</Badge>
-              </DropdownItem>
-              <DropdownItem onClick={() => alert('Alerts!')}>
-                <span>Alerts</span>
-              </DropdownItem>
-            </Dropdown>
-          </li>
           {/* <!-- Profile menu --> */}
           <li className="relative">
             <button
@@ -131,8 +100,8 @@ function Header(props: any) {
             >
               <Avatar
                 className="align-middle"
-                src="https://images.unsplash.com/photo-1502378735452-bc7d86632805?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&s=aa3a807e1bbdfd4364d1f449eaa96d82"
-                alt=""
+                src={DefaultAvatar}
+                alt="avatar"
                 aria-hidden="true"
               />
             </button>

@@ -18,7 +18,7 @@ export const mentorApi = {
     return axiosClient.delete(`/mentor/${id}`)
   },
   getMentorCandidates: () => {
-    return axiosClient.get(`/mentor?pending=false`)
+    return axiosClient.get(`/mentor?pending=true`)
   },
   acceptCandidate: (id: string) => {
     return axiosClient.post(`/mentor/${id}/accept`)
