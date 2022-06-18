@@ -3,7 +3,7 @@ import { Mentor } from 'models'
 
 export const mentorApi = {
   getAllMentors: () => {
-    return axiosClient.get('/mentor')
+    return axiosClient.get('/mentor?pending=false')
   },
   getMentorById: (id: string) => {
     return axiosClient.get(`/mentor/${id}/admin`)
