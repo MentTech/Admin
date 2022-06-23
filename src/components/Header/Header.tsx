@@ -110,14 +110,14 @@ function Header(props: any) {
               isOpen={isProfileMenuOpen}
               onClose={() => setIsProfileMenuOpen(false)}
             >
-              <Link to="/">
+              <Link to="/account">
                 <DropdownItem>
                   <OutlinePersonIcon
                     className="w-4 h-4 mr-3"
                     aria-hidden="true"
                   />
 
-                  <span>Trang cá nhân</span>
+                  <span>Tài khoản</span>
                 </DropdownItem>
               </Link>
               {/* <DropdownItem>

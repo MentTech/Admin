@@ -51,6 +51,11 @@ const routes = [
     icon: 'MoneyIcon',
     name: 'Giao dịch',
   },
+  {
+    path: '/account',
+    icon: 'AdminIcon',
+    name: 'Tài khoản',
+  },
 ]
 
 export default routes

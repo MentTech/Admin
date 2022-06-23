@@ -19,6 +19,7 @@ const MenteePage = lazy(() => import('pages/MenteePage'))
 const OrderPage = lazy(() => import('pages/OrderPage'))
 const TransactionPage = lazy(() => import('pages/TransactionPage'))
 const CreateCategory = lazy(() => import('pages/CreateCategoryPage'))
+const AccountPage = lazy(() => import('pages/AccountPage'))
 // const UsersPage = lazy(() => import('../pages/UsersPage'));
 // const ClassPage = lazy(() => import('../pages/ClassPage'));
 // const UserDetail = lazy(() => import('../pages/UserDetail'));
@@ -100,6 +101,10 @@ const routes = [
   {
     path: 'transactions',
     component: TransactionPage,
+  },
+  {
+    path: 'account',
+    component: AccountPage,
   },
   // {
   //   path: 'admins/:id', // the url

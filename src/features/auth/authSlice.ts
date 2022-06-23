@@ -1,8 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { RootState } from 'app/store'
+import { Admin } from 'models'
 import { postSignIn } from './postSignIn'
+import { fetchAccountInfo } from './fetchAccountInfo'
+import { updateProfile } from './updateProfile'
 
 interface AuthState {
+  admin: Admin | null
   isSignedIn: boolean
   accessToken: string
   status: 'idle' | 'loading' | 'done'
@@ -20,9 +24,10 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    signOut: (state) => {
+    signOut: (state: AuthState) => {
       state.isSignedIn = false
       state.accessToken = ''
+      state.admin = null
     },
   },
   extraReducers: (builder) => {
@@ -39,6 +44,14 @@ export const authSlice = createSlice({
     builder.addCase(postSignIn.rejected, (state, { payload }) => {
       state.status = 'done'
       state.error = payload?.message
+    })
+
+    builder.addCase(fetchAccountInfo.fulfilled, (state, action) => {
+      state.admin = action.payload
+    })
+
+    builder.addCase(updateProfile.fulfilled, (state, action) => {
+      state.admin = action.payload
     })
   },
 })

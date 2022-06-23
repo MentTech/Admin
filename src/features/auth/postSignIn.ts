@@ -31,7 +31,7 @@ export const postSignIn = createAsyncThunk<
     return data as AuthResponse
   } catch (err: any) {
     return thunkApi.rejectWithValue({
-      message: 'Invalid email or password',
+      message: 'Tài khoản hoặc mật khẩu không chính xác!',
     })
   }
 })
