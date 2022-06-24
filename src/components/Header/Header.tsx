@@ -1,31 +1,22 @@
-import { useContext, useState } from 'react'
-import { SidebarContext } from 'context/SidebarContext'
 import {
   Avatar,
-  Badge,
   Dropdown,
   DropdownItem,
-  Input,
   WindmillContext,
 } from '@windmill/react-ui'
 import { useAppDispatch, useAppSelector } from 'app/hook'
+import DefaultAvatar from 'assets/img/unnamed.png'
+import { SidebarContext } from 'context/SidebarContext'
 import { selectAuth, signOut } from 'features/auth/authSlice'
+import { useContext, useState } from 'react'
 import { Link, Navigate } from 'react-router-dom'
 import { Icons } from '../../icons'
-import DefaultAvatar from 'assets/img/unnamed.png'
 
-const {
-  SearchIcon,
-  MoonIcon,
-  SunIcon,
-  BellIcon,
-  MenuIcon,
-  OutlinePersonIcon,
-  OutlineLogoutIcon,
-} = Icons
+const { MoonIcon, SunIcon, MenuIcon, OutlinePersonIcon, OutlineLogoutIcon } =
+  Icons
 
 function Header(props: any) {
-  const [isNotificationsMenuOpen, setIsNotificationsMenuOpen] = useState(false)
+  // const [isNotificationsMenuOpen, setIsNotificationsMenuOpen] = useState(false)
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false)
   const { mode, toggleMode } = useContext(WindmillContext)
   const { toggleSidebar } = useContext(SidebarContext)
@@ -36,9 +27,9 @@ function Header(props: any) {
     return <Navigate to={'/login'} replace />
   }
 
-  function handleNotificationsClick() {
-    setIsNotificationsMenuOpen(!isNotificationsMenuOpen)
-  }
+  // function handleNotificationsClick() {
+  //   setIsNotificationsMenuOpen(!isNotificationsMenuOpen)
+  // }
 
   function handleProfileClick() {
     setIsProfileMenuOpen(!isProfileMenuOpen)

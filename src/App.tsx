@@ -1,8 +1,7 @@
-import { store } from 'app/store'
 import About from 'pages/About'
 import Login from 'pages/Login'
 import React, { lazy } from 'react'
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import routes from 'routes/index'
 const Layout = lazy(() => import('./containers/Layout'))
 const Page404 = lazy(() => import('pages/404'))
@@ -14,18 +13,18 @@ export interface PrivateRouteProps {
   [key: string]: any
 }
 
-const PrivateRoute = ({ element: Component, ...rest }: PrivateRouteProps) => (
-  <Route
-    {...rest}
-    element={
-      store.getState().auth.isSignedIn ? (
-        Component
-      ) : (
-        <Navigate to={{ pathname: '/login' }} replace />
-      )
-    }
-  />
-)
+// const PrivateRoute = ({ element: Component, ...rest }: PrivateRouteProps) => (
+//   <Route
+//     {...rest}
+//     element={
+//       store.getState().auth.isSignedIn ? (
+//         Component
+//       ) : (
+//         <Navigate to={{ pathname: '/login' }} replace />
+//       )
+//     }
+//   />
+// )
 
 export default function App(props: AppProps) {
   return (

@@ -63,6 +63,8 @@ function AccountPage() {
 
   useEffect(() => {
     dispatch(fetchAccountInfo())
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   async function onSubmit(data: any) {

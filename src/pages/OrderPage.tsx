@@ -1,13 +1,12 @@
-import { Input, Badge } from '@windmill/react-ui'
+import { Badge, Input } from '@windmill/react-ui'
 import { useAppDispatch, useAppSelector } from 'app/hook'
-import { selectOrders } from 'features/order/orderSlice'
 import Spinner from 'components/Spinner/Spinner'
 import { fetchOrders } from 'features/order/fetchOrders'
+import { selectOrders } from 'features/order/orderSlice'
 import { processOrder } from 'features/order/processOrder'
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import PageTitle from '../components/Typography/PageTitle'
 import { toast } from 'react-toastify'
+import PageTitle from '../components/Typography/PageTitle'
 
 import {
   Button,
@@ -21,15 +20,14 @@ import {
   TableRow,
 } from '@windmill/react-ui'
 import { Icons } from 'icons'
-import { OrderTransaction, Skill } from 'models'
-import Modals from 'components/Modals/Modals'
+import { OrderTransaction } from 'models'
 
-const { EditIcon, SortIcon, TrashIcon } = Icons
+const { SortIcon } = Icons
 function OrderPage() {
   const [pageTable, setPageTable] = useState(1)
   const [searchName, setSearchName] = useState('')
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false)
-  const [selectedSkill, setSelecctedSkill] = useState<Skill | null>(null)
+  // const [deleteModalOpen, setDeleteModalOpen] = useState(false)
+  // const [selectedSkill, setSelecctedSkill] = useState<Skill | null>(null)
   const [isAsc, setIsAsc] = useState(true)
   const dispatch = useAppDispatch()
   const { orders } = useAppSelector(selectOrders)
@@ -70,14 +68,14 @@ function OrderPage() {
     setIsAsc(!isAsc)
   }
 
-  function handleDeleteModalOpen(skill: Skill) {
-    setSelecctedSkill(skill)
-    setDeleteModalOpen(true)
-  }
+  // function handleDeleteModalOpen(skill: Skill) {
+  //   setSelecctedSkill(skill)
+  //   setDeleteModalOpen(true)
+  // }
 
-  function handleDeleteModalClose() {
-    setDeleteModalOpen(false)
-  }
+  // function handleDeleteModalClose() {
+  //   setDeleteModalOpen(false)
+  // }
 
   async function handleProcessOrder(order: OrderTransaction) {
     try {

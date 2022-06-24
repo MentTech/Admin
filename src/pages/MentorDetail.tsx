@@ -16,9 +16,9 @@ import { toast } from 'react-toastify'
 function MentorDetail(props: any) {
   const [showAcceptMentorModal, setShowAcceptMentorModal] = useState(false)
   const {
-    register,
+    // register,
     handleSubmit,
-    formState: { errors },
+    // formState: { errors },
   } = useForm()
 
   let { id } = useParams()
@@ -32,6 +32,7 @@ function MentorDetail(props: any) {
 
   useEffect(() => {
     dispatch(fetchMentorById(id as string))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   function onSubmit(data: any) {

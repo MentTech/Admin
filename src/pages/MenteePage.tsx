@@ -2,14 +2,14 @@ import { Input, Label } from '@windmill/react-ui'
 import { useAppDispatch, useAppSelector } from 'app/hook'
 import Spinner from 'components/Spinner/Spinner'
 import { fetchAllMentees } from 'features/mentee/fetchAllMentees'
-import { selecteMentees } from 'features/mentee/menteeSlice'
-import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import PageTitle from '../components/Typography/PageTitle'
-import { toast } from 'react-toastify'
 import { fetchMenteeById } from 'features/mentee/fetchMenteeById'
 import { lockMentee } from 'features/mentee/lockMentee'
+import { selecteMentees } from 'features/mentee/menteeSlice'
 import { unlockMentee } from 'features/mentee/unlockMentee'
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import PageTitle from '../components/Typography/PageTitle'
 
 import {
   Avatar,
@@ -24,18 +24,18 @@ import {
   TableHeader,
   TableRow,
 } from '@windmill/react-ui'
+import { MenteeApi } from 'api'
 import DefaultAvatar from 'assets/img/unnamed.png'
 import Modals from 'components/Modals/Modals'
 import { Icons } from 'icons'
 import { Mentee } from 'models'
-import { MenteeApi } from 'api'
 
-const { EditIcon, SortIcon, MoneyIcon, LockIcon, UnlockIcon } = Icons
+const { EditIcon, MoneyIcon, LockIcon, UnlockIcon } = Icons
 function MenteePage() {
   const [pageTable, setPageTable] = useState(1)
   const [searchName, setSearchName] = useState('')
   const [searchEmail, setSearchEmail] = useState('')
-  const [isAsc, setIsAsc] = useState(true)
+  // const [isAsc, setIsAsc] = useState(true)
   const [showTopupModal, setShowTopupModal] = useState(false)
   const [selectedMentee, setSelectedMentee] = useState<Mentee | null>(null)
   const dispatch = useAppDispatch()
@@ -43,6 +43,8 @@ function MenteePage() {
 
   useEffect(() => {
     dispatch(fetchAllMentees())
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   let dataTable = mentees
@@ -77,9 +79,9 @@ function MenteePage() {
     setPageTable(p)
   }
 
-  function onSortChange() {
-    setIsAsc(!isAsc)
-  }
+  // function onSortChange() {
+  //   setIsAsc(!isAsc)
+  // }
 
   const TopupModalActions = (
     <>
@@ -142,7 +144,7 @@ function MenteePage() {
     if (selectedMentee) {
       try {
         setShowTopupModal(false)
-        const res = await MenteeApi.topUpMentee(
+        await MenteeApi.topUpMentee(
           selectedMentee.id,
           Number(e.target.amount.value)
         )
@@ -229,7 +231,7 @@ function MenteePage() {
                   </TableCell>
                   <TableCell>
                     <div className="flex justify-center items-center space-x-1">
-                      <Link to="#">
+                      <Link to={`/mentees/${user.id}`}>
                         <Button layout="link" size="small" aria-label="Edit">
                           <EditIcon
                             className="w-5 h-5 text-blue-500"

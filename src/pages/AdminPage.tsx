@@ -1,28 +1,27 @@
-import React, { useState, useEffect } from 'react'
-import PageTitle from '../components/Typography/PageTitle'
-import { Link } from 'react-router-dom'
 import { Input } from '@windmill/react-ui'
-import Spinner from 'components/Spinner/Spinner'
-import { fetchAdmins } from 'features/admin/fetchAdmins'
-import { selectAdmins } from 'features/admin/adminsSlice'
 import { useAppDispatch, useAppSelector } from 'app/hook'
+import Spinner from 'components/Spinner/Spinner'
+import { selectAdmins } from 'features/admin/adminsSlice'
+import { fetchAdmins } from 'features/admin/fetchAdmins'
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import PageTitle from '../components/Typography/PageTitle'
 
 import {
-  Table,
-  TableHeader,
-  TableCell,
-  TableBody,
-  TableRow,
-  TableFooter,
-  TableContainer,
-  Badge,
   Avatar,
+  Badge,
   Button,
   Pagination,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableFooter,
+  TableHeader,
+  TableRow,
 } from '@windmill/react-ui'
 import DefaultAvatar from 'assets/img/unnamed.png'
 import { Icons } from 'icons'
-import { Admin } from 'models'
 
 const { EditIcon, SortIcon } = Icons
 function AdminPage() {
@@ -35,6 +34,8 @@ function AdminPage() {
 
   useEffect(() => {
     dispatch(fetchAdmins())
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   let dataTable = admins

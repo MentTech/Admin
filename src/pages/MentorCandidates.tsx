@@ -27,12 +27,12 @@ import Modals from 'components/Modals/Modals'
 import { acceptCandidate } from 'features/candidate/acceptCandidate'
 import { toast } from 'react-toastify'
 
-const { EditIcon, SortIcon } = Icons
+const { EditIcon } = Icons
 function MentorCandidates() {
   const [pageTable, setPageTable] = useState(1)
   const [searchName, setSearchName] = useState('')
   const [searchEmail, setSearchEmail] = useState('')
-  const [isAsc, setIsAsc] = useState(true)
+  // const [isAsc, setIsAsc] = useState(true)
   const [showAcceptMentorModal, setShowAcceptMentorModal] = useState(false)
   const [selectedCandidate, setSelectedCandidate] = useState<Mentor | null>(
     null
@@ -42,6 +42,7 @@ function MentorCandidates() {
 
   useEffect(() => {
     dispatch(fetchCandidates())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   let dataTable = candidates
@@ -53,11 +54,7 @@ function MentorCandidates() {
   })
 
   dataTable = dataTable.slice().sort((a: any, b: any) => {
-    if (isAsc) {
-      return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-    } else {
-      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-    }
+    return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
   })
 
   // pagination setup
@@ -74,9 +71,9 @@ function MentorCandidates() {
     setPageTable(p)
   }
 
-  function onSortChange() {
-    setIsAsc(!isAsc)
-  }
+  // function onSortChange() {
+  //   setIsAsc(!isAsc)
+  // }
 
   const acceptMentorActions = (
     <>

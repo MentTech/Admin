@@ -66,6 +66,7 @@ export const ThemeProvider = ({ children }) => {
       theme,
       toggleTheme,
     }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [theme]
   )
 

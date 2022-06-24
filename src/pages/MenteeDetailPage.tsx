@@ -1,16 +1,15 @@
-import React, { useEffect } from 'react'
-import PageTitle from '../components/Typography/PageTitle'
-import { Link } from 'react-router-dom'
-import { Input, HelperText, Label, Button } from '@windmill/react-ui'
-import DefaultAvatar from '../assets/img/unnamed.png'
-import { fetchAdminById } from 'features/admin/fetchAdminById'
-import { selectAdmins } from 'features/admin/adminsSlice'
-import { useAppDispatch, useAppSelector } from 'app/hook'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { Button, HelperText, Input, Label } from '@windmill/react-ui'
+import { useAppDispatch, useAppSelector } from 'app/hook'
+import { fetchMenteeById } from 'features/mentee/fetchMenteeById'
+import { selecteMentees } from 'features/mentee/menteeSlice'
+import { Mentee } from 'models'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import * as yup from 'yup'
-import { Admin } from 'models'
+import DefaultAvatar from '../assets/img/unnamed.png'
+import PageTitle from '../components/Typography/PageTitle'
 
 const schema = yup
   .object({
@@ -19,7 +18,7 @@ const schema = yup
   })
   .required()
 
-function AdminDetail(props: any) {
+function MenteeDetail(props: any) {
   const {
     register,
     handleSubmit,
@@ -31,14 +30,14 @@ function AdminDetail(props: any) {
   let { id } = useParams()
 
   const dispatch = useAppDispatch()
-  const { admins } = useAppSelector(selectAdmins)
+  const { mentees } = useAppSelector(selecteMentees)
 
-  let matchedAdmin = admins.find((admin: Admin) => {
-    return admin.id.toString() === id?.toString()
+  let matchedMentee = mentees.find((mentee: Mentee) => {
+    return mentee.id.toString() === id?.toString()
   })
 
   useEffect(() => {
-    dispatch(fetchAdminById(Number(id)))
+    dispatch(fetchMenteeById(id as string))
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -53,10 +52,10 @@ function AdminDetail(props: any) {
   return (
     <>
       <div className="flex justify-between items-center">
-        <PageTitle>{'Thông tin quản trị viên'}</PageTitle>
+        <PageTitle>{'Thông tin mentee'}</PageTitle>
         <div>
-          <Link to="/admins">
-            <Button>Back</Button>
+          <Link to="/mentees">
+            <Button>Quay lại</Button>
           </Link>
         </div>
       </div>
@@ -66,7 +65,7 @@ function AdminDetail(props: any) {
           <div className="flex-shrink-0 flex justify-center w-64">
             <img
               className="mt-8 w-28 h-28 rounded-full"
-              src={DefaultAvatar}
+              src={matchedMentee?.avatar || DefaultAvatar}
               alt="avatar"
             />
           </div>
@@ -78,7 +77,7 @@ function AdminDetail(props: any) {
                   {...register('name')}
                   className="mt-1"
                   placeholder="Fullname"
-                  defaultValue={matchedAdmin?.name}
+                  defaultValue={matchedMentee?.name}
                   disabled
                   valid={errors.name === undefined}
                   css=""
@@ -91,7 +90,7 @@ function AdminDetail(props: any) {
                 <Input
                   {...register('email')}
                   disabled
-                  defaultValue={matchedAdmin?.email}
+                  defaultValue={matchedMentee?.email}
                   className="mt-1"
                   placeholder="Email"
                   type="email"
@@ -109,7 +108,7 @@ function AdminDetail(props: any) {
                   css=""
                   placeholder="Phone Number"
                   type="number"
-                  defaultValue={matchedAdmin?.phone}
+                  defaultValue={matchedMentee?.phone}
                   valid={errors.phoneNumber === undefined}
                 />
                 <HelperText valid={false}>
@@ -118,10 +117,25 @@ function AdminDetail(props: any) {
               </Label>
 
               <Label className="mt-4">
+                <span>Số dư token</span>
+                <Input
+                  {...register('phoneNumber')}
+                  disabled
+                  className="mt-1"
+                  css=""
+                  placeholder="Phone Number"
+                  type="number"
+                  defaultValue={matchedMentee?.coin}
+                  valid={errors.coin === undefined}
+                />
+                <HelperText valid={false}>{errors.coin?.message}</HelperText>
+              </Label>
+
+              <Label className="mt-4">
                 <span>
                   Ngày tạo:{' '}
                   {new Date(
-                    matchedAdmin?.createAt as Date
+                    matchedMentee?.createAt as Date
                   ).toLocaleDateString()}
                 </span>
 
@@ -145,4 +159,4 @@ function AdminDetail(props: any) {
   )
 }
 
-export default AdminDetail
+export default MenteeDetail

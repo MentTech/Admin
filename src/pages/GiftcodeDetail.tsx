@@ -8,14 +8,14 @@ import { toast } from 'react-toastify'
 import * as yup from 'yup'
 import PageTitle from '../components/Typography/PageTitle'
 
-const containerStyles = {
-  maxWidth: 400,
-}
+// const containerStyles = {
+//   maxWidth: 400,
+// }
 
-const initialState = {
-  value: new Date('2019-10-25 10:44'),
-  locale: { name: 'en-US', label: 'English (US)' },
-}
+// const initialState = {
+//   value: new Date('2019-10-25 10:44'),
+//   locale: { name: 'en-US', label: 'English (US)' },
+// }
 
 const schema = yup
   .object({
@@ -40,7 +40,6 @@ function CreateGiftCode() {
   const {
     register,
     handleSubmit,
-    control,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),

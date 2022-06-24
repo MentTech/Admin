@@ -1,6 +1,6 @@
+import { store } from './app/store'
 import ReactDOM from 'react-dom/client'
 import App from './App'
-import { store } from './app/store'
 import { Provider } from 'react-redux'
 import { Windmill } from '@windmill/react-ui'
 import './index.css'

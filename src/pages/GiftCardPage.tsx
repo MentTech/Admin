@@ -1,40 +1,37 @@
-import { useState, useEffect } from 'react'
-import PageTitle from '../components/Typography/PageTitle'
-import { Link } from 'react-router-dom'
-import { Input } from '@windmill/react-ui'
-import Spinner from 'components/Spinner/Spinner'
 import { useAppDispatch, useAppSelector } from 'app/hook'
+import Spinner from 'components/Spinner/Spinner'
 import { fetchAllGiftCode } from 'features/giftcode/fetchAllGiftCode'
 import { selectGiftCodes } from 'features/giftcode/giftCodeSlice'
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import PageTitle from '../components/Typography/PageTitle'
 
 import {
-  Table,
-  TableHeader,
-  TableCell,
-  TableBody,
-  TableRow,
-  TableFooter,
-  TableContainer,
-  Badge,
-  Avatar,
   Button,
   Pagination,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableFooter,
+  TableHeader,
+  TableRow,
 } from '@windmill/react-ui'
-import DefaultAvatar from 'assets/img/unnamed.png'
 import { Icons } from 'icons'
 import { GiftCode } from 'models'
 
-const { EditIcon, SortIcon } = Icons
+const { EditIcon } = Icons
 function GiftCardPage() {
   const [pageTable, setPageTable] = useState(1)
-  const [searchName, setSearchName] = useState('')
-  const [searchEmail, setSearchEmail] = useState('')
-  const [isAsc, setIsAsc] = useState(true)
+  // const [searchName, setSearchName] = useState('')
+  // const [searchEmail, setSearchEmail] = useState('')
+  // const [isAsc, setIsAsc] = useState(true)
   const dispatch = useAppDispatch()
   const { giftCodes, status } = useAppSelector(selectGiftCodes)
 
   useEffect(() => {
     dispatch(fetchAllGiftCode())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   let dataTable = giftCodes
@@ -46,11 +43,7 @@ function GiftCardPage() {
   // })
 
   dataTable = dataTable.slice().sort((a: any, b: any) => {
-    if (isAsc) {
-      return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-    } else {
-      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-    }
+    return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
   })
 
   // pagination setup
@@ -67,9 +60,9 @@ function GiftCardPage() {
     setPageTable(p)
   }
 
-  function onSortChange() {
-    setIsAsc(!isAsc)
-  }
+  // function onSortChange() {
+  //   setIsAsc(!isAsc)
+  // }
 
   return (
     <>

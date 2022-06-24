@@ -32,12 +32,13 @@ function MentorPage() {
   const [pageTable, setPageTable] = useState(1)
   const [searchName, setSearchName] = useState('')
   const [searchEmail, setSearchEmail] = useState('')
-  const [isAsc, setIsAsc] = useState(true)
+  // const [isAsc, setIsAsc] = useState(true)
   const dispatch = useAppDispatch()
   const { mentors } = useAppSelector(selectMentors)
 
   useEffect(() => {
     dispatch(fetchMentors())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   let dataTable = mentors
@@ -50,11 +51,7 @@ function MentorPage() {
   })
 
   dataTable = dataTable.slice().sort((a: any, b: any) => {
-    if (isAsc) {
-      return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-    } else {
-      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-    }
+    return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
   })
 
   // pagination setup

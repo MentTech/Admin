@@ -7,4 +7,5 @@ export interface Mentee {
   avatar?: string
   coin: number
   isActive: boolean
+  createAt: Date
 }

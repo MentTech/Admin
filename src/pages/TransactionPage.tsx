@@ -1,13 +1,14 @@
 import { Badge, Input } from '@windmill/react-ui'
 import { useAppDispatch, useAppSelector } from 'app/hook'
+import DefaultAvatar from 'assets/img/unnamed.png'
 import Spinner from 'components/Spinner/Spinner'
 import { fetchAllTransactions } from 'features/transaction/fetchAllTransactions'
 import { selectTransactions } from 'features/transaction/transactionSlice'
 import { useEffect, useState } from 'react'
 import PageTitle from '../components/Typography/PageTitle'
-import DefaultAvatar from 'assets/img/unnamed.png'
 
 import {
+  Avatar,
   Pagination,
   Table,
   TableBody,
@@ -16,16 +17,14 @@ import {
   TableFooter,
   TableHeader,
   TableRow,
-  Avatar,
 } from '@windmill/react-ui'
-import { Icons } from 'icons'
 import { Transaction } from 'models'
 
 // const { SortIcon } = Icons
 function TransactionPage() {
   const [pageTable, setPageTable] = useState(1)
   const [searchName, setSearchName] = useState('')
-  const [isAsc, setIsAsc] = useState(true)
+  // const [isAsc, setIsAsc] = useState(true)
   const dispatch = useAppDispatch()
   const { transactions } = useAppSelector(selectTransactions)
 
@@ -42,11 +41,7 @@ function TransactionPage() {
   })
 
   dataTable.slice().sort((a: Transaction, b: Transaction) => {
-    if (isAsc) {
-      return new Date(a.createAt).getTime() - new Date(b.createAt).getTime()
-    } else {
-      return new Date(b.createAt).getTime() - new Date(a.createAt).getTime()
-    }
+    return new Date(a.createAt).getTime() - new Date(b.createAt).getTime()
   })
 
   // pagination setup
