@@ -21,7 +21,7 @@ root.render(
   <Provider store={store}>
     <SidebarProvider>
       <Suspense fallback={<ThemedSuspense />}>
-        <Windmill>
+        <Windmill usePreferences>
           <App />
           <ToastContainer />
         </Windmill>

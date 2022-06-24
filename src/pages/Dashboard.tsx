@@ -229,45 +229,47 @@ function Dashboard() {
             <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">
               Trạng thái đặt lịch
             </p>
-            <Pie
-              data={{
-                labels: [
-                  'Chờ xác nhận',
-                  'Đã xác nhận',
-                  'Đã hoàn thành',
-                  'Đã hủy',
-                ],
+            <div className="w-3/4 m-auto flex">
+              <Pie
+                data={{
+                  labels: [
+                    'Chờ xác nhận',
+                    'Đã xác nhận',
+                    'Đã hoàn thành',
+                    'Đã hủy',
+                  ],
 
-                datasets: [
-                  {
-                    label: '# of Votes',
-                    data: sessionsData,
-                    backgroundColor: [
-                      'rgba(255, 99, 132, 0.2)',
-                      'rgba(54, 162, 235, 0.2)',
-                      'rgba(255, 206, 86, 0.2)',
-                      'rgba(75, 50, 192, 0.2)',
-                    ],
-                    borderColor: [
-                      'rgba(255, 99, 132, 1)',
-                      'rgba(54, 162, 235, 1)',
-                      'rgba(255, 206, 86, 1)',
-                      'rgba(75, 50, 192, 1)',
-                    ],
-                    borderWidth: 1,
+                  datasets: [
+                    {
+                      label: '# of Votes',
+                      data: sessionsData,
+                      backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 50, 192, 0.2)',
+                      ],
+                      borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 50, 192, 1)',
+                      ],
+                      borderWidth: 1,
+                    },
+                  ],
+                }}
+                options={{
+                  plugins: {
+                    legend: {
+                      align: 'center',
+                      position: 'bottom',
+                    },
                   },
-                ],
-              }}
-              options={{
-                plugins: {
-                  legend: {
-                    align: 'center',
-                    position: 'bottom',
-                  },
-                },
-              }}
-              width="80%"
-            />
+                }}
+                width="80%"
+              />
+            </div>
           </CardBody>
         </Card>
         <Card>
