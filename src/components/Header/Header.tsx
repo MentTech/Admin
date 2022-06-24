@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react'
-//import { SidebarContext } from '../context/SidebarContext';
+import { SidebarContext } from 'context/SidebarContext'
 import {
   Avatar,
   Badge,
@@ -28,7 +28,7 @@ function Header(props: any) {
   const [isNotificationsMenuOpen, setIsNotificationsMenuOpen] = useState(false)
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false)
   const { mode, toggleMode } = useContext(WindmillContext)
-  //const { toggleSidebar } = useContext(SidebarContext);
+  const { toggleSidebar } = useContext(SidebarContext)
   const dispatch = useAppDispatch()
   const { isSignedIn } = useAppSelector(selectAuth)
 
@@ -54,7 +54,7 @@ function Header(props: any) {
         {/* <!-- Mobile hamburger --> */}
         <button
           className="p-1 mr-5 -ml-1 rounded-md lg:hidden focus:outline-none focus:shadow-outline-purple"
-          //onClick={toggleSidebar}
+          onClick={toggleSidebar}
           aria-label="Menu"
         >
           <MenuIcon className="w-6 h-6" aria-hidden="true" />
@@ -75,7 +75,7 @@ function Header(props: any) {
         </div>
         <ul className="flex items-center flex-shrink-0 space-x-6">
           {/* <!-- Theme toggler --> */}
-          <li className="flex">
+          {/* <li className="flex">
             <button
               className="rounded-md focus:outline-none focus:shadow-outline-purple"
               onClick={toggleMode}
@@ -87,7 +87,7 @@ function Header(props: any) {
                 <MoonIcon className="w-5 h-5" aria-hidden="true" />
               )}
             </button>
-          </li>
+          </li> */}
           {/* <!-- Notifications menu --> */}
 
           {/* <!-- Profile menu --> */}

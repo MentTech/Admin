@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import { ToastContainer } from 'react-toastify'
 import ThemedSuspense from 'components/ThemedSuspense'
 import { Suspense } from 'react'
+import { SidebarProvider } from 'context/SidebarContext'
 import 'tw-elements'
 
 const rootElement = document.querySelector('#root')
@@ -18,11 +19,13 @@ const root = ReactDOM.createRoot(rootElement)
 
 root.render(
   <Provider store={store}>
-    <Suspense fallback={<ThemedSuspense />}>
-      <Windmill>
-        <App />
-        <ToastContainer />
-      </Windmill>
-    </Suspense>
+    <SidebarProvider>
+      <Suspense fallback={<ThemedSuspense />}>
+        <Windmill>
+          <App />
+          <ToastContainer />
+        </Windmill>
+      </Suspense>
+    </SidebarProvider>
   </Provider>
 )
