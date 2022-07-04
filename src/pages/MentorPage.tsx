@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useReducer } from 'react'
 import PageTitle from '../components/Typography/PageTitle'
 import { Link } from 'react-router-dom'
 import { Input } from '@windmill/react-ui'
@@ -128,6 +128,7 @@ function MentorPage() {
                 <TableCell>Họ và tên</TableCell>
                 <TableCell>Email</TableCell>
                 <TableCell>Số điện thoại</TableCell>
+                <TableCell>Xác minh (eKYC)</TableCell>
                 <TableCell>Trạng thái</TableCell>
                 <TableCell>Thao tác</TableCell>
               </tr>
@@ -155,6 +156,15 @@ function MentorPage() {
                   </TableCell>
                   <TableCell>
                     <Badge type="primary">{user.phone}</Badge>
+                  </TableCell>
+                  <TableCell>
+                    <Badge
+                      type={user.User_mentor.isVerified ? 'success' : 'danger'}
+                    >
+                      {user.User_mentor.isVerified
+                        ? 'Đã xác minh'
+                        : 'Chưa xác minh'}
+                    </Badge>
                   </TableCell>
                   <TableCell>
                     <Badge type={`${user.isActive ? 'success' : 'danger'}`}>

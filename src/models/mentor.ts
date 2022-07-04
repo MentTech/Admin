@@ -8,4 +8,5 @@ export interface Mentor {
   isActive: boolean
   createAt?: Date
   coin?: number
+  User_mentor: any
 }

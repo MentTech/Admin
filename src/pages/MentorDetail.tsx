@@ -1,4 +1,4 @@
-import { Button, Input, Label, Textarea } from '@windmill/react-ui'
+import { Badge, Button, Input, Label, Textarea } from '@windmill/react-ui'
 import { useAppDispatch, useAppSelector } from 'app/hook'
 import ThemedSuspense from 'components/ThemedSuspense'
 import { fetchMentorById } from 'features/mentor/fetchMentorById'
@@ -106,11 +106,22 @@ function MentorDetail(props: any) {
       <div className="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
         <div className="flex mb-6">
           <div className="flex-shrink-0 flex justify-center w-64">
-            <img
-              className="mt-8 w-28 h-28 rounded-full"
-              src={matchedMentor.avatar || DefaultAvatar}
-              alt="avatar"
-            />
+            <div className="flex flex-col gap-2 items-center">
+              <img
+                className="mt-8 w-28 h-28 rounded-full"
+                src={matchedMentor.avatar || DefaultAvatar}
+                alt="avatar"
+              />
+              <Badge
+                type={
+                  matchedMentor.User_mentor.isVerified ? 'success' : 'danger'
+                }
+              >
+                {matchedMentor.User_mentor.isVerified
+                  ? 'Đã xác minh'
+                  : 'Chưa xác minh'}
+              </Badge>
+            </div>
           </div>
           <div className="mt-8 mr-4 flex-1 w-full">
             <form onSubmit={handleSubmit(onSubmit)}>

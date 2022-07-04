@@ -158,6 +158,7 @@ function MentorCandidates() {
                 <TableCell>Họ và tên</TableCell>
                 <TableCell>Email</TableCell>
                 <TableCell>Số điện thoại</TableCell>
+                <TableCell>Xác minh (eKYC)</TableCell>
                 <TableCell className="text-center">Thao tác</TableCell>
               </tr>
             </TableHeader>
@@ -184,6 +185,15 @@ function MentorCandidates() {
                   </TableCell>
                   <TableCell>
                     <Badge type="primary">{user.phone}</Badge>
+                  </TableCell>
+                  <TableCell>
+                    <Badge
+                      type={user.User_mentor.isVerified ? 'success' : 'danger'}
+                    >
+                      {user.User_mentor.isVerified
+                        ? 'Đã xác minh'
+                        : 'Chưa xác minh'}
+                    </Badge>
                   </TableCell>
                   <TableCell>
                     <div className="flex justify-center items-center space-x-1">
