@@ -138,7 +138,7 @@ function Dashboard() {
         </InfoCard>
 
         <InfoCard
-          title="Doanh thu trong tháng"
+          title="Doanh thu"
           value={statistic.profit.toLocaleString('it-IT', {
             style: 'currency',
             currency: 'VND',
@@ -152,7 +152,7 @@ function Dashboard() {
           />
         </InfoCard>
 
-        <InfoCard title="Đặt lịch trong tháng" value={statistic.register}>
+        <InfoCard title="Lượt đặt lịch" value={statistic.register}>
           <RoundIcon
             icon={CartIcon}
             iconColorClass="text-teal-500 dark:text-teal-100"

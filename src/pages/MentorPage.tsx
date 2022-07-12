@@ -159,9 +159,9 @@ function MentorPage() {
                   </TableCell>
                   <TableCell>
                     <Badge
-                      type={user.User_mentor.isVerified ? 'success' : 'danger'}
+                      type={user.User_mentor?.isVerified ? 'success' : 'danger'}
                     >
-                      {user.User_mentor.isVerified
+                      {user.User_mentor?.isVerified
                         ? 'Đã xác minh'
                         : 'Chưa xác minh'}
                     </Badge>

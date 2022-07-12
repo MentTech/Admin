@@ -114,10 +114,10 @@ function MentorDetail(props: any) {
               />
               <Badge
                 type={
-                  matchedMentor.User_mentor.isVerified ? 'success' : 'danger'
+                  matchedMentor.User_mentor?.isVerified ? 'success' : 'danger'
                 }
               >
-                {matchedMentor.User_mentor.isVerified
+                {matchedMentor.User_mentor?.isVerified
                   ? 'Đã xác minh'
                   : 'Chưa xác minh'}
               </Badge>
