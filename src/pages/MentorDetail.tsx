@@ -108,7 +108,7 @@ function MentorDetail(props: any) {
           <div className="flex-shrink-0 flex justify-center w-64">
             <div className="flex flex-col gap-2 items-center">
               <img
-                className="mt-8 w-28 h-28 rounded-full"
+                className="mt-8 w-28 h-28 rounded-full object-cover"
                 src={matchedMentor.avatar || DefaultAvatar}
                 alt="avatar"
               />
@@ -176,18 +176,6 @@ function MentorDetail(props: any) {
                 />
               </Label>
 
-              <Label className="mt-4">
-                <span className="font-bold text-lg">LinkedIn</span>
-                <Input
-                  disabled
-                  className="mt-1"
-                  css=""
-                  placeholder="Linkedin"
-                  type="number"
-                  value={matchedMentor?.User_mentor.linkedin}
-                  valid
-                />
-              </Label>
               <Label className="mt-4">
                 <span className="font-bold text-lg">Giới thiệu</span>
                 <Textarea
@@ -311,6 +299,40 @@ function MentorDetail(props: any) {
                     )
                   )}
                 </ul>
+              </Label>
+
+              <Label className="mt-4">
+                <span className="font-bold text-lg">LinkedIn</span>
+                <div>
+                  <a
+                    href={
+                      matchedMentor?.User_mentor?.linkedin
+                        ? matchedMentor?.User_mentor?.linkedin
+                        : '#'
+                    }
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {matchedMentor?.User_mentor?.linkedin}
+                  </a>
+                </div>
+              </Label>
+
+              <Label className="mt-4">
+                <span className="font-bold text-lg">CV</span>
+                <div>
+                  <a
+                    href={
+                      matchedMentor?.User_mentor?.cv
+                        ? matchedMentor?.User_mentor?.cv
+                        : '#'
+                    }
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {matchedMentor?.User_mentor?.cv}
+                  </a>
+                </div>
               </Label>
 
               <Label className="mt-4">
