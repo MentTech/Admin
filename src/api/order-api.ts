@@ -4,10 +4,13 @@ export const orderApi = {
   getAllOrders: () => {
     return axiosClient.get('/order?limit=1000')
   },
-  processOrder: (orderId: string) => {
-    return axiosClient.patch(`/order/${orderId}`, {
-      isAccept: true,
-    })
+  processOrder: (orderId: string, isWithdraw: boolean) => {
+    return axiosClient.patch(
+      `/order/` + (isWithdraw ? 'withdraw/' : '') + `${orderId}`,
+      {
+        isAccept: true,
+      }
+    )
   },
   getOrderById: (orderId: string) => {
     return axiosClient.get(`/order/${orderId}`)

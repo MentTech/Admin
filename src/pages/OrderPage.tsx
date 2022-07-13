@@ -79,7 +79,12 @@ function OrderPage() {
 
   async function handleProcessOrder(order: OrderTransaction) {
     try {
-      const actionResult = await dispatch(processOrder(order.orderId))
+      const actionResult = await dispatch(
+        processOrder({
+          orderId: order.orderId,
+          isWithdraw: order.orderType === 'Withdraw',
+        })
+      )
       if (processOrder.fulfilled.match(actionResult)) {
         toast.success('Xử lý giao dịch thành công!')
       }
