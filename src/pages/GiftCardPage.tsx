@@ -109,8 +109,7 @@ function GiftCardPage() {
                 <TableCell>Hiệu lực từ</TableCell>
                 <TableCell>Hiệu lực đến</TableCell>
                 <TableCell>Lượt sử dụng còn lại</TableCell>
-                <TableCell>Token</TableCell>
-                <TableCell>Thao tác</TableCell>
+                <TableCell>Số xu</TableCell>
               </tr>
             </TableHeader>
             <TableBody>
@@ -129,7 +128,7 @@ function GiftCardPage() {
                   </TableCell>
                   <TableCell>
                     <span className="text-sm">
-                      {new Date(giftcode.validFrom).toLocaleDateString('vi')}
+                      {new Date(giftcode.validTo).toLocaleDateString('vi')}
                     </span>
                   </TableCell>
 
@@ -138,15 +137,6 @@ function GiftCardPage() {
                   </TableCell>
                   <TableCell>
                     <span className="text-sm">{giftcode.coin}</span>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex justify-center items-center space-x-4">
-                      <Link to={`/giftcodes/${giftcode.id}`}>
-                        <Button layout="link" size="small" aria-label="Edit">
-                          <EditIcon className="w-5 h-5" aria-hidden="true" />
-                        </Button>
-                      </Link>
-                    </div>
                   </TableCell>
                 </TableRow>
               ))}

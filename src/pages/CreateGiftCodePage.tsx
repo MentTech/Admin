@@ -71,10 +71,10 @@ function CreateGiftCode() {
         <div className="px-4 py-3 mb-4 bg-white rounded-lg shadow-md dark:bg-gray-800 w-full">
           <form onSubmit={handleSubmit(onSubmit)}>
             <Label>
-              <span>Loại giftcode</span>
+              <span>Mã</span>
               <Input
                 {...register('type')}
-                placeholder="Loại giftcode"
+                placeholder="mã"
                 css=""
                 className="mt-1"
               />
@@ -82,10 +82,10 @@ function CreateGiftCode() {
             </Label>
 
             <Label>
-              <span>Coin</span>
+              <span>Số xu</span>
               <Input
                 {...register('coin')}
-                placeholder="Coin"
+                placeholder="Số xu"
                 type="text"
                 css=""
                 className="mt-1"
